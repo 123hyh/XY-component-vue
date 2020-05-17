@@ -1,7 +1,11 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const DeclarationBundlerPlugin = require('declaration-bundler-webpack-plugin');
 module.exports = {
+  entry: {
+    utils: path.resolve(__dirname, '../src/utils/index.ts'),
+  },
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].js',

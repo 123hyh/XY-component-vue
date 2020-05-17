@@ -19,9 +19,8 @@
   </div>
 </template>
 <script>
-import { registerResizable } from 'vue-component';
+import { registerResizable } from '@/utils/index.ts';
 export default {
-  data: (_) => ({}),
   mounted() {
     registerResizable({
       element: document.querySelector('.resizable'),
