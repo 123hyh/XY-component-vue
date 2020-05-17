@@ -53,7 +53,6 @@ export default {
   .resizable-transtion {
     .resizable {
       border: 1px #ccc solid;
-      float: left;
       height: 200px;
       width: 200px;
       position: relative;
