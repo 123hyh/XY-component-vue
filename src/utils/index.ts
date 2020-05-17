@@ -97,3 +97,22 @@ export function registerResizable({
   instance.resizable();
   return instance;
 }
+
+/**
+ * 获取数据的类型
+ * @param {any} params
+ */
+export function getType(params: any) {
+  return Object.prototype.toString
+    .call(params)
+    .slice(8, -1)
+    .toLowerCase();
+}
+
+/**
+ * 判断数据是否为 undefined
+ * @param {any} data
+ */
+export function isUndef(data: any) {
+  return data === undefined;
+}
