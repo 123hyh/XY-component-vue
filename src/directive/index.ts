@@ -14,6 +14,8 @@ interface derectiveHooksParams {
 }
 /**
  * 缩放指令
+ * @param { number } minwidth 不允许小于的宽度
+ * @param {number} minheight 不允许小于的高度
  */
 export const resizable = (minwidth = 140, minheight = 140) => ({
   inserted(el: any, binding: any, vnode: any, oladVnode: any) {
