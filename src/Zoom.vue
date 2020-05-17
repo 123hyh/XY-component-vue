@@ -1,5 +1,5 @@
 <template>
-  <div class="resizeble-box">
+  <div class="resizeble-box" v-resizable:resizable>
     <div class="resizable-transtion">
       <div class="resizable">
         <!-- header -->
@@ -19,20 +19,16 @@
   </div>
 </template>
 <script>
-import { registerResizable } from '@/utils/index.ts';
+import { resizable } from '@/directive/index.ts';
 export default {
-  mounted() {
-    registerResizable({
-      element: document.querySelector('.resizable'),
-      minwidth: 140,
-      minheight: 140,
-    });
-  },
   props: {
     title: {
       type: String,
       default: '',
     },
+  },
+  directives: {
+    resizable: resizable(),
   },
   methods: {
     /**

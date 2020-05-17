@@ -4,9 +4,16 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const DeclarationBundlerPlugin = require('declaration-bundler-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const yargs = require('yargs').argv;
+
+function resolve(dir) {
+  return path.resolve(__dirname, dir);
+}
 module.exports = {
   entry: {
-    utils: path.resolve(__dirname, '../src/utils/index.ts'),
+    // 工具函数
+    utils: resolve('../src/utils/index.ts'),
+    // vue 指令集合
+    directive: resolve('../src/directive/index.ts'),
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
