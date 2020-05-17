@@ -25,7 +25,7 @@ const conf = merge(baseConfig, {
   }, {}),
   resolve: {
     alias: {
-      'vue-component': path.resolve(__dirname, '../src/index.js'),
+      'vue-component': path.resolve(__dirname, '../src/index.ts'),
     },
   },
   mode: 'development',
