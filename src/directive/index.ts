@@ -20,7 +20,7 @@ interface derectiveHooksParams {
 export const resizable = (minwidth = 140, minheight = 140) => ({
   inserted(el: any, binding: any, vnode: any, oladVnode: any) {
     if (!binding.arg) {
-      throw new Error('请添加需要绑定的类名如 ： `v-resizable:resizable`');
+      throw new Error('请添加需要绑定的类名如 ： `v-resizable:<类名>`');
     }
     registerResizable({
       element: <HTMLElement>document.querySelector('.' + binding.arg),
