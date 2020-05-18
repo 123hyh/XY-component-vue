@@ -26,60 +26,6 @@
 </head>
 
 <body>
-  <!-- <div id='div1'></div> -->
-  <script>
-    window.onload = function () {
-      return
-      var oDiv = document.getElementById('div1');
-
-      oDiv.onmousedown = function (ev) {
-
-        var ev = ev || event;
-
-        var disW = this.offsetWidth;
-        var disX = ev.clientX;
-        var disL = this.offsetLeft;
-
-        var b = '';
-        //当鼠标放在距离右边10px的区域可以拖动元素
-        if (disX > disL + disW - 10) {
-
-          b = 'right';
-        }
-        if (disX < disL + 10) {
-
-          b = 'left';
-        }
-
-        document.onmousemove = function (ev) {
-
-          var ev = ev || event;
-
-          switch (b) {
-
-            case 'left':
-              oDiv.style.width = disW - (ev.clientX - disX) + 'px';
-              oDiv.style.left = disL + (ev.clientX - disX) + 'px';
-              break;
-
-            case 'right':
-              oDiv.style.width = disW + (ev.clientX - disX) + 'px';
-              break;
-
-          }
-
-        }
-
-        document.onmouseup = function () {
-          document.onmousemove = document.onmouseup = null;
-        }
-
-        return false;
-
-      }
-
-    }
-  </script>
   <div id="app"></div>
   <script src="/__build__/zoom.js"></script>
 </body>

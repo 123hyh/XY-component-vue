@@ -1,0 +1,4 @@
+/config/*
+/dist/*
+/scripts/*
+/node_modules/*

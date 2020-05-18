@@ -18,7 +18,7 @@ interface derectiveHooksParams {
  * @param {number} minheight 不允许小于的高度
  */
 export const resizable = (minwidth = 140, minheight = 140) => ({
-  inserted(el: any, binding: any, vnode: any, oladVnode: any) {
+  inserted(el: any, binding: any) {
     if (!binding.arg) {
       throw new Error('请添加需要绑定的类名如 ： `v-resizable:<类名>`');
     }

@@ -68,7 +68,7 @@ class Resizable {
       document.addEventListener('mousemove', handlerMousemove.bind(this));
 
       // 鼠标松开
-      this.element.addEventListener('mouseup', (event) => {
+      this.element.addEventListener('mouseup', () => {
         this.state = false; // 重置状态位
         document.removeEventListener('mousemove', handlerMousemove.bind(this)); // 销毁事件
       });
@@ -115,4 +115,56 @@ export function getType(params: any) {
  */
 export function isUndef(data: any) {
   return data === undefined;
+}
+
+function forEach<T>(newData: T, handler: (key: any, newData: T) => any) {
+  return function forEach(prevData: T) {
+    const OBJ_TYPE = getType(prevData);
+    if (OBJ_TYPE === 'object') {
+      for (const key in prevData) {
+        handler([key, prevData[key]], newData);
+      }
+    } else {
+      for (const item of <any>prevData) {
+        handler(item, newData);
+      }
+    }
+
+    return newData;
+  };
+}
+
+type CloneDataType = 'array' | 'object' | 'map' | 'set';
+
+type cloneDataConf = {
+  [key in CloneDataType]: typeof forEach;
+};
+
+const cloneDataConf = {
+  array: forEach(Array.of<any>(), (item, newData) => {
+    newData.push(cloneData(item));
+  }),
+  object: forEach(Object.assign({}), ([key, value], newData) => {
+    newData[key] = cloneData(value);
+  }),
+  map: forEach(new Map(), ([key, value], newData) => {
+    newData.set(key, cloneData(value));
+  }),
+  set: forEach(new Set(), (value, newData) => {
+    newData.add(cloneData(value));
+  }),
+};
+
+/**
+ * 深克隆数据
+ * @param {T} data 数据
+ * @returns {T} data
+ */
+export function cloneData<T extends Object>(data: T): T {
+  const DATA_TYPE = getType(data);
+  // eslint-disable-next-line no-prototype-builtins
+  if (cloneDataConf.hasOwnProperty(DATA_TYPE)) {
+    data = (<any>cloneDataConf)[DATA_TYPE](data);
+  }
+  return data;
 }

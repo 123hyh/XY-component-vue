@@ -1,5 +1,5 @@
 <template>
-  <div class="resizeble-box" v-resizable:resizable>
+  <div v-show="visibled"  class="resizeble-box" v-resizable:resizable>
     <div class="resizable-transtion">
       <div class="resizable">
         <!-- header -->
@@ -26,6 +26,10 @@ export default {
       type: String,
       default: '',
     },
+    visibled:{
+      type: Boolean,
+      default: false
+    }
   },
   directives: {
     resizable: resizable(),
@@ -36,6 +40,7 @@ export default {
      */
     handlerClose() {
       this.$emit('handleClose');
+      this.$emit('update:visibled',false)
     },
   },
   name: 'Zoom',
@@ -46,11 +51,13 @@ export default {
   position: fixed;
   width: 100vw;
   height: 100vh;
+  background-color: rgba(0,0,0,.45);
   .resizable-transtion {
     .resizable {
       border: 1px #ccc solid;
       height: 200px;
       width: 200px;
+      background-color: #fff;
       position: relative;
       .resizable-header {
         position: relative;

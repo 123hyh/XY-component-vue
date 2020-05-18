@@ -8,6 +8,13 @@ const yargs = require('yargs').argv;
 function resolve(dir) {
   return path.resolve(__dirname, dir);
 }
+// eslint-loader
+const eslintLoader = yargs.development  &&  {
+  loader: 'eslint-loader',
+  options:{
+    fix: true
+  }
+}
 module.exports = {
   entry: {
     // 工具函数
@@ -32,10 +39,11 @@ module.exports = {
               transpileOnly: true,
             },
           },
-        ],
+          eslintLoader
+        ].filter(Boolean),
       },
       { test: /.vue$/, use: 'vue-loader' },
-      { test: /.js$/, use: [{ loader: 'babel-loader' }] },
+      { test: /.js$/, use: [{ loader: 'babel-loader' },eslintLoader].filter(Boolean) },
       {
         test: /\.css$/i,
         use: [
@@ -62,7 +70,7 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, '../src'),
     },
-    extensions: ['.js', '.ts', '.vue', '.ts'],
+    extensions: ['.js', '.ts','.tsx', '.vue', '.ts'],
   },
   plugins: [
     new CleanWebpackPlugin(),
