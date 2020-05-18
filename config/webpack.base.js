@@ -47,7 +47,7 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          yargs.production ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+         /*  yargs.production ? MiniCssExtractPlugin.loader :  */'vue-style-loader',
           'css-loader',
           'postcss-loader',
         ],
@@ -56,7 +56,7 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
-          yargs.production ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          /* yargs.production ? MiniCssExtractPlugin.loader : */ 'vue-style-loader',
           // Translates CSS into CommonJS
           'css-loader',
           // Compiles Sass to CSS
@@ -75,10 +75,10 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
-    yargs.production &&
+   /*  yargs.production &&
       new MiniCssExtractPlugin({
         filename: `[name].css`,
         chunkFilename: '[id].css',
-      }),
+      }), */
   ].filter(Boolean),
 };
