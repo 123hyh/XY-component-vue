@@ -41,6 +41,7 @@
         "no-extend-native": "error",
         "no-proto": "error",
         "no-redeclare": "error",
-        "no-dupe-keys": "error"
+        "no-dupe-keys": "error",
+        "space-infix-ops": ["error", {"int32Hint": false}]
     }
 }
