@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import ZoomComponent from './App.vue';
-new Vue({
+new Vue( {
   el: '#app',
-  render: (h) => h(ZoomComponent),
-});
+  render: ( h ) => h( ZoomComponent ),
+} );
