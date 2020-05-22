@@ -1,12 +1,26 @@
 import classComponent from 'vue-class-component';
 import {  Component } from 'vue-tsx-support';
+type PropsParams = {
+  pageSize?: number,
+  list: any[]
+}
 @classComponent( {
+  props:{
+    pageSize: {
+      type: Number,
+      default: 100
+    },
+    list: {
+      type: Array,
+      default:() => Array.from( { length: 1000 } ).map( ( _, i )=>i )
+    }
+  }
+} )
+
+export default class LongList extends Component<PropsParams> {
   render() {
     return <div>test</div>;
   }
-} )
-export default class LongList extends Component<{}> {
-
 }
 /* export default componentFactory.create( {
   props:{
