@@ -1,6 +1,14 @@
+import classComponent from 'vue-class-component';
+import {  Component } from 'vue-tsx-support';
+@classComponent( {
+  render() {
+    return <div>test</div>;
+  }
+} )
+export default class LongList extends Component<{}> {
 
-import { componentFactory } from 'vue-tsx-support';
-export default componentFactory.create( {
+}
+/* export default componentFactory.create( {
   props:{
     pageSize: {
       type: Number,
@@ -49,4 +57,4 @@ export default componentFactory.create( {
       </div>
     </div>;
   }
-} );
+} ); */
