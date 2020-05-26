@@ -172,3 +172,21 @@ export function cloneData<T extends Object>( data: T ): T {
   }
   return data;
 }
+
+/**
+ * 替换html文本标签
+ * @param {string} val 需要替换的html文本
+ */
+export function replaceHtmlTag( val = '' ) {
+  return val.replace( /<[^>]+>/g, '' ).trim();
+}
+
+/**
+ * 邮箱正则表达式
+ */
+export const Email_REG =  /(.+)@{1}?(.+)\.{1}?\w+/;
+
+/**
+ * 大陆手机号正则表达式
+ */
+export const CHPhoneReg = new RegExp( '^1(3|4|5|6|7|8|9)(\\d){9}$' );
