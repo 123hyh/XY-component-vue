@@ -95,6 +95,9 @@ export default {
     }
   }
   .clear-icon{
+    &:hover{
+      color: #C0C4CC;
+    }
     cursor: pointer;
     color: #C0C4CC;
     position: absolute;
