@@ -1,10 +1,17 @@
 <template>
   <div>
-    <Form :model="formData" :rules="rulesData" ref="formModel">
+    <Form
+      class="xy-form"
+      :inline='inline'
+      :model="formData"
+      :rules="rulesData"
+      ref="formModel"
+      :validate-on-rule-change="false"
+    >
       <div
         v-for="(value, key) of groupFormConfig"
-        :key="`group_${key}`"
-        :class="`form-group-${key}`"
+        :key="`xy_group_${key}`"
+        :class="`xy-form-group-${key}`"
       >
         <FormItem
           v-for="(cvalue, cindex) of value"
@@ -13,9 +20,11 @@
           :modelBin="cvalue.modelBin"
           @handleRule="handleRule"
           @checkingInput="checkingInput"
-          :key="`form-group-item-${cindex}`"
+          :key="`xy_form_group_item_${cindex}`"
         />
       </div>
+      <button @click.prevent="validateAllField">校验</button>
+      <button @click.prevent="() => resetFields()">清空</button>
     </Form>
   </div>
 </template>
@@ -29,6 +38,8 @@ var conf = {
   name: {
     /* 表单类型 */
     type: 'string',
+    /* 数字保留小数位数 */
+    decimal: 0,
     /* 表单 label */
     label: '姓名',
     /* 分组标识符 */
@@ -44,9 +55,7 @@ var conf = {
     /* 校验规则 */
     rules: [
       {
-        validator(rule, value, handler) {
-          handler();
-        },
+        message: '必填',
         trigger: 'blur',
         required: true,
       },
@@ -61,7 +70,7 @@ var conf = {
   },
   address: {
     type: 'string',
-    label: '地址',
+    label: '省市区',
     group: 2,
   },
 };
@@ -74,15 +83,24 @@ export default {
   },
   name: 'XyForm',
   props: {
+
     /* 输入框的尺寸 */
     size: {
       type: String,
       default: 'small' /* medium / small / mini */,
     },
+
+    /* 表单输入框的配置 */
     config: {
       type: Object,
       default: () => conf,
     },
+
+    /* 是否为行内表单 */
+    inline:{
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     /**
@@ -102,9 +120,6 @@ export default {
       return { ...this.rules, ...this.initalRules };
     },
   },
-  mounted() {
-    this.handlerReactData();
-  },
   components: {
     Form,
     FormItem,
@@ -112,7 +127,7 @@ export default {
 
   data() {
     return {
-      formData: {},
+      formData: this.handlerReactData(),
       initalRules: {},
     };
   },
@@ -120,12 +135,14 @@ export default {
     /**
      * 初始化响应数据
      */
-    handlerReactData() {
+    handlerReactData(initalData = {}) {
+      const data = {};
       for (const key in this.config) {
         if (this.config.hasOwnProperty(key)) {
-          this.$set(this.formData, key, '');
+          this.$set(data, key, initalData[key] || '');
         }
       }
+      return data;
     },
 
     /**
@@ -204,8 +221,61 @@ export default {
         this.$refs.formModel.validateField(target);
       }
     },
+    /**
+     * 获取表单数据
+     */
+    getFormData() {
+      return { ...this.formData };
+    },
+
+    /**
+     * 校验所有表单
+     */
+    validateAllField() {
+      return new Promise((resolve) => {
+        this.$refs.formModel.validate((isPass = false) => {
+          const result = { isPass };
+          if (isPass) {
+            result.data = this.getFormData();
+          }
+          resolve(result);
+        });
+      });
+    },
+
+    /**
+     * 清空字段校验结果
+     */
+    clearValidate(props) {
+      this.$refs.formModel.clearValidate(props);
+    },
+
+    /**
+     * 清空字段及移除所有校验结果
+     */
+    resetFields(props) {
+      return this.$refs.formModel.resetFields(props);
+    },
+
+    /**
+     * 对部分表单字段校验
+     */
+    validateField(props) {
+      this.$refs.formModel.validateField(props);
+    },
   },
 };
 </script>
-
-<style></style>
+<style lang="scss">
+.xy-form {
+  input {
+    border-radius: 2px;
+    &:focus {
+      border-color: #01b1f6;
+    }
+  }
+  .el-form-item__error{
+    padding-top: 0;
+  }
+}
+</style>
