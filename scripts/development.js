@@ -17,7 +17,7 @@ app.use(
 );
 app.use(webpackHotMiddleware(compiler));
 
-// Serve the files on port 3000.
+// Serve the files on port 3499.
 app.listen(3499, function() {
-  console.log("Example app listening on port 3000!\n");
+  console.log("Example app listening on port 3499!\n");
 });

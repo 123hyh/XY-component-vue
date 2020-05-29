@@ -1,5 +1,6 @@
 import Zoom from '@/Zoom.vue';
 import LongList from '@/LongList.vue';
+import Form from '@/Components/Form/index.vue';
 /**
  * 可缩放组件
  * @property {String} title 标题
@@ -7,3 +8,4 @@ import LongList from '@/LongList.vue';
  */
 export const ZoomComponent = Zoom;
 export const LongListComponent = LongList;
+export const XyForm = Form;

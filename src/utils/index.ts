@@ -133,7 +133,6 @@ function forEach<T>( newData: T, handler: ( key: any, newData: T ) => any ) {
         handler( item, newData );
       }
     }
-
     return newData;
   };
 }
@@ -171,6 +170,24 @@ export function cloneData<T extends Object>( data: T ): T {
     data = ( <any>cloneDataConf )[DATA_TYPE]( data );
   }
   return data;
+}
+
+/**
+ * 遍历对象（过滤原型链）
+ * @param {object} object 需要遍历的数据 
+ * @param {function} handler 遍历的回调 
+ */
+export function traversalObject(
+  object: {[prop:string]:any},
+  handler:( key:string, value:any ) => void 
+) {
+  for ( const key in object ) {
+    // eslint-disable-next-line no-prototype-builtins
+    if ( object.hasOwnProperty( key ) ) {
+      const value = object[key];
+      handler( key, value );
+    }
+  }
 }
 
 /**
