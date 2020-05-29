@@ -1,63 +1,60 @@
 <template>
-  <Input 
-    :title='formData[modelBin]'
+  <Input
+    :title="formData[modelBin]"
     v-model="formData[modelBin]"
     :placeholder="options.placeholder"
-    :disabled='options.disabled'
+    :disabled="options.disabled"
     :size="size"
-    :show-password='options.showPassword'
-    :clearable='options.clearable'
+    :show-password="options.showPassword"
+    :clearable="options.clearable"
     @focus="() => hanldeEmit('handleFocus')"
     @blur="() => hanldeEmit('handleBlur')"
     @clear="() => hanldeEmit('handleClear')"
     @change="() => hanldeEmit('handleChange')"
-    @input="() =>  hanldeEmit('handleChange') "/>
+    @input="() => hanldeEmit('handleChange')"
+  />
 </template>
 
 <script>
-import {Input} from 'element-ui'
+import { Input } from 'element-ui';
 export default {
   inject: {
     emit: {
       from: 'emit',
-      default: () => {}
+      default: () => {},
     },
-    size: ['size']
+    size: ['size'],
   },
 
   props: {
     formData: {
       type: Object,
-      required:true
+      required: true,
     },
     modelBin: {
       type: String,
-      required: true
+      required: true,
     },
     options: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  components:{
-    Input
+  components: {
+    Input,
   },
-  methods:{
+  methods: {
     /**
      * 向上传递事件
      */
-    hanldeEmit(emitName){
-      this.emit(
-        emitName, 
-        {
-          target: this.modelBin, data: this.formData[this.modelBin]
-        }
-      )
-    }
-  }
-}
+    hanldeEmit(emitName) {
+      this.emit(emitName, {
+        target: this.modelBin,
+        data: this.formData[this.modelBin],
+      });
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

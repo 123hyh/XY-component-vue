@@ -189,7 +189,49 @@ export function traversalObject(
     }
   }
 }
+/**
+ * 防抖函数
+ * @param {number} time 防抖时间
+ * @param {function} handler 需要执行的回调函数
+ * @param {boolean} immediate 是否立即执行该回调
+ */
+export function debounce(
+  time: number, 
+  handler: ( ...args: any[] ) => any,
+  immediate = false  ) {
+  // eslint-disable-next-line no-unused-vars
+  let prevHandler: any = null;
+  let prevDateNow: number | null = null;
+  if ( immediate ) {
+    handler();
+  }
+  return function( this:any, ...args: any[] ) {
+    const currentTime = Date.now();
+    /**
+     * 如果 上个触发的时间戳 - 当前的时间戳 < time 时
+     *    清空上一个 定时器，重新赋值 time时间后触发的定时，
+     *    执行完清空 上一个时间戳
+     * 否则 把当前时间戳赋值，下一次执行时如此循环该条件，最终达成 > time
+     */
+    if ( 
+      prevDateNow === null  || 
+      currentTime - prevDateNow < time 
+    ) {
 
+      clearTimeout( prevHandler );
+      prevHandler = null;
+      prevDateNow = currentTime;
+
+      prevHandler = setTimeout( () => {
+        handler.call( this, ...args );
+        prevDateNow = null;
+      }, time );
+      
+    } else {
+      prevDateNow = currentTime;
+    }
+  };
+}
 /**
  * 替换html文本标签
  * @param {string} val 需要替换的html文本

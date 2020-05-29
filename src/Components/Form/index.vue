@@ -1,18 +1,18 @@
 <template>
   <div>
-    <Form 
-      :model="formData" 
-      :rules='rules'
-    >
-      <div 
-        v-for="(value, key) of groupFormConfig" 
+    <Form :model="formData" :rules="rulesData" ref="formModel">
+      <div
+        v-for="(value, key) of groupFormConfig"
         :key="`group_${key}`"
         :class="`form-group-${key}`"
       >
-        <FormItem v-for="(cvalue, cindex) of value" 
-          :formData='formData'
-          :options='cvalue' 
-          :modelBin='cvalue.modelBin'  
+        <FormItem
+          v-for="(cvalue, cindex) of value"
+          :formData="formData"
+          :options="cvalue"
+          :modelBin="cvalue.modelBin"
+          @handleRule="handleRule"
+          @checkingInput="checkingInput"
           :key="`form-group-item-${cindex}`"
         />
       </div>
@@ -21,11 +21,10 @@
 </template>
 
 <script>
-
-import { Form } from 'element-ui'
-import FormItem from '@/Components/Form/FormItem/index.vue'
-import { cloneData , traversalObject} from '@/utils/index'
-
+import { Form } from 'element-ui';
+import FormItem from '@/Components/Form/FormItem/index.vue';
+import { cloneData, traversalObject } from '@/utils/index';
+import Vue from 'vue';
 var conf = {
   name: {
     /* 表单类型 */
@@ -46,81 +45,85 @@ var conf = {
     rules: [
       {
         validator(rule, value, handler) {
-          handler()
+          handler();
         },
         trigger: 'blur',
-        required: true
-      }
-    ]
+        required: true,
+      },
+    ],
   },
   password: {
     type: 'number',
     label: '密码',
     clearable: true,
     order: 1,
-    group: 1
+    group: 1,
   },
   address: {
     type: 'string',
     label: '地址',
-    group: 2
-  }
-}
+    group: 2,
+  },
+};
 export default {
-  provide(){
+  provide() {
     return {
       emit: this.emit,
-      size: this.size
-    }
+      size: this.size,
+    };
   },
   name: 'XyForm',
   props: {
     /* 输入框的尺寸 */
     size: {
       type: String,
-      default: 'small' /* medium / small / mini */
+      default: 'small' /* medium / small / mini */,
     },
     config: {
       type: Object,
-      default: () => conf
-    }
+      default: () => conf,
+    },
   },
   computed: {
     /**
      * 处理分组数据
      */
-    groupFormConfig(){
-      return this.handlerGroupFormConfig()
+    groupFormConfig() {
+      return this.handlerGroupFormConfig();
     },
 
     /**
      * 表单校验规则
      */
-    rules(){
-      return this.handlerGeneratorRules()
+    rules() {
+      return this.handlerGeneratorRules();
+    },
+    rulesData() {
+      return { ...this.rules, ...this.initalRules };
     },
   },
   mounted() {
-    this.handlerReactData()
+    this.handlerReactData();
   },
   components: {
     Form,
-    FormItem
+    FormItem,
   },
 
   data() {
     return {
-      formData: {}
-    }
+      formData: {},
+      initalRules: {},
+    };
   },
   methods: {
     /**
      * 初始化响应数据
      */
-    handlerReactData(){
-      for(const key in this.config){
-        if(this.config.hasOwnProperty(key)){
-          this.$set(this.formData, key, '')
+    handlerReactData() {
+      for (const key in this.config) {
+        if (this.config.hasOwnProperty(key)) {
+          this.$set(this.formData, key, '');
         }
       }
     },
@@ -128,60 +131,81 @@ export default {
     /**
      * 向上emit
      */
-    emit(methodName, data){
-      this.$emit(methodName, data)
+    emit(methodName, data) {
+      this.$emit(methodName, data);
     },
 
     /**
      * 重新生成分组数据
      */
-    handlerGroupFormConfig(){
-      const oldConf = this.config // 深克隆方法暂时有bug
-      const groupData = {}
-      for(const key in oldConf) {
-        if(oldConf.hasOwnProperty(key)) {
-          const { group = 1, ...options } = oldConf[key]
-          options.modelBin = key
-          if(groupData[group] === undefined){
-            groupData[group] = []
+    handlerGroupFormConfig() {
+      const oldConf = this.config; // 深克隆方法暂时有bug
+      const groupData = {};
+      for (const key in oldConf) {
+        if (oldConf.hasOwnProperty(key)) {
+          const { group = 1, ...options } = oldConf[key];
+          options.modelBin = key;
+          if (groupData[group] === undefined) {
+            groupData[group] = [];
           }
-          groupData[group].push(options)
+          groupData[group].push(options);
         }
       }
       // 排序
-      for(const key in groupData){
-        if(groupData.hasOwnProperty(key)){
+      for (const key in groupData) {
+        if (groupData.hasOwnProperty(key)) {
           const value = groupData[key];
-          value.sort(({order: lOrder},{order: rOrder})=>{
-            if(lOrder > rOrder){
-              return 1
-            }else if (lOrder<rOrder){
-              return -1
-            }else{
-              return 0
+          value.sort(({ order: lOrder }, { order: rOrder }) => {
+            if (lOrder > rOrder) {
+              return 1;
+            } else if (lOrder < rOrder) {
+              return -1;
+            } else {
+              return 0;
             }
-          })
+          });
         }
       }
-      return groupData
+      return groupData;
     },
 
     /**
      * 根据表单配置生成校验规则
      */
     handlerGeneratorRules() {
-      const generateRules = {}
+      const generateRules = {};
       traversalObject(this.config, (key, { rules }) => {
-        if ( rules ) {
-          generateRules[key] = rules
+        if (rules) {
+          generateRules[key] = rules;
         }
-      })
-      return generateRules
-    }
-  }
-}
+      });
+      return generateRules;
+    },
+
+    /**
+     * 收集下面组件传来的自定义rule
+     * rule 必须数个数组
+     */
+    handleRule({ target, rule = [] } = {}) {
+      if (target && rule.length) {
+        const targetRule = this.initalRules[target];
+        if (targetRule) {
+          targetRule.push(...rule);
+        } else if (target) {
+          this.$set(this.initalRules, target, rule);
+        }
+      }
+    },
+    /**
+     * 组件下触发的校验输入值
+     */
+    checkingInput(target) {
+      if (target) {
+        this.$refs.formModel.validateField(target);
+      }
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

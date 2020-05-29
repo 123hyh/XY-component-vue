@@ -8,6 +8,8 @@
         :modelBin='modelBin' 
         :formData='formData'
         :options='options'
+        @handleRule="(rule) => $emit('handleRule', rule)"
+        @checkingInput="(target) => $emit('checkingInput',target)"
       >
       </component>
   </FormItem>
