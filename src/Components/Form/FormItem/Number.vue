@@ -9,6 +9,7 @@
       :size="size"
       :clearable='options.clearable'
       :controls='false'
+      @change="() => hanldeEmit('handleChange')"
       @focus="() => hanldeEmit('handleFocus')"
       @blur="() => hanldeEmit('handleBlur')"
     />
