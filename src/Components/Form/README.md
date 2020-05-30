@@ -1,7 +1,4 @@
 - # Form表单组件
-
-***
-
   *  ## props:
      * ### config ( 配置 ) { key: { value } }
       ```javascript
