@@ -11,7 +11,7 @@
       <div
         v-for="(value, key) of groupFormConfig"
         :key="`xy_group_${key}`"
-        :class="`xy-form-group-${key}`"
+        :class="`xy-form-group xy-form-group-${key}`"
       >
         <FormItem
           v-for="(cvalue, cindex) of value"
@@ -32,7 +32,12 @@
 <script>
 import { Form } from "element-ui";
 import FormItem from "@/Components/Form/FormItem/index.vue";
-import { cloneData, traversalObject } from "@/utils/index";
+import {
+  cloneData,
+  traversalObject,
+  getType,
+  isEmptyObject,
+} from "@/utils/index";
 
 export default {
   provide() {
@@ -98,11 +103,17 @@ export default {
       const data = {};
       for (const key in this.config) {
         if (this.config.hasOwnProperty(key)) {
-
-          const { type, checkboxOptions } = this.config[key];
+          const { type, checkboxOptions, multiple } = this.config[key];
 
           // 初始值类型
-          const value = type === "checkbox" && checkboxOptions ? [] : "";
+          const value = (() => {
+            const obj = {
+              checkbox: [],
+              switch: false,
+              select: multiple ? [] : "",
+            };
+            return obj[type] ?? "";
+          })();
 
           this.$set(data, key, initalData[key] || value);
         }
@@ -218,8 +229,8 @@ export default {
     /**
      * 清空字段及移除所有校验结果
      */
-    resetFields(props) {
-      return this.$refs.formModel.resetFields(props);
+    resetFields() {
+      return this.$refs.formModel.resetFields();
     },
 
     /**
@@ -227,6 +238,21 @@ export default {
      */
     validateField(props) {
       this.$refs.formModel.validateField(props);
+    },
+
+    /**
+     * 设置表单字段的值
+     */
+    setFields(data = {}) {
+      if (getType(data) === "object") {
+        traversalObject(data, (key, value) => {
+          this.$set(this.formData, key, value);
+          // 设置值是触发
+          this.$emit("handleChange", { target: key, data: value });
+        });
+      } else {
+        console.error("参数必须是一个对象 { key: value }");
+      }
     },
   },
 };
@@ -238,6 +264,9 @@ export default {
     &:focus {
       border-color: #01b1f6;
     }
+  }
+  .el-select {
+    width: 100%;
   }
   .el-form-item__error {
     padding-top: 0;

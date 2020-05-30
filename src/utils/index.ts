@@ -110,6 +110,23 @@ export function getType( params: any ) {
     .slice( 8, -1 )
     .toLowerCase();
 }
+/**
+ * 校验是否为空对象
+ * @param data 
+ */
+export function isEmptyObject( data: {[prop:string]: any} ) {
+  if ( getType( data ) !== 'object' ) {
+    console.warn( '参数必须是一个对象' );
+    return false;
+  } else {
+    const keys = [];
+    traversalObject( data, ( key )=>{
+      keys.push( key );
+    } );
+    return keys.length === 0;
+  }
+  
+}
 
 /**
  * 判断数据是否为 undefined

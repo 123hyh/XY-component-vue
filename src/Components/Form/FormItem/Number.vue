@@ -10,7 +10,6 @@
     @focus="() => hanldeEmit('handleFocus')"
     @blur="() => hanldeEmit('handleBlur')"
     @clear="() => hanldeEmit('handleClear')"
-    @change="() => hanldeEmit('handleChange')"
     @input="(...args) => hanldeEmit('handleChange', ...args)"
   />
 </template>

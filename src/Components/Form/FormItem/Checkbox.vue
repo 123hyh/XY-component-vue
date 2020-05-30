@@ -5,7 +5,6 @@
     v-model="formData[modelBin]"
     :placeholder="options.placeholder"
     :size="size"
-    @change="(...args) => hanldeEmit('handleChange', ...args)"
   >
     <!-- 遍历 checkboxOptions -->
     <Checkbox
@@ -23,6 +22,7 @@
 <script>
 import { debounce, traversalObject } from "@/utils/index";
 import { CheckboxGroup, Checkbox } from "element-ui";
+
 export default {
   inject: {
     emit: {
@@ -88,10 +88,7 @@ export default {
       const { id } = clickData;
       if (id !== undefined) {
         const checked = targetData.includes(id);
-        this.emit({
-          target: "handleClickChekbox",
-          data: { checked, sourceData: clickData },
-        });
+        this.emit("handleClickChekbox", { checked, sourceData: clickData });
       }
     }),
   },

@@ -1,6 +1,6 @@
 <template>
   <Input
-    :title="formData[modelBin]"
+    :title="title"
     v-model="formData[modelBin]"
     :placeholder="options.placeholder"
     :disabled="options.disabled"
@@ -10,20 +10,26 @@
     @focus="() => hanldeEmit('handleFocus')"
     @blur="() => hanldeEmit('handleBlur')"
     @clear="() => hanldeEmit('handleClear')"
-    @change="() => hanldeEmit('handleChange')"
-    @input="() => hanldeEmit('handleChange')"
+    @input="() => handleInput('handleChange')"
   />
 </template>
 
 <script>
-import { Input } from 'element-ui';
+import { Input } from "element-ui";
+import { debounce } from "@/utils";
+
 export default {
+  computed: {
+    title() {
+      return this.options.showPassword ? "" : this.formData[this.modelBin];
+    },
+  },
   inject: {
     emit: {
-      from: 'emit',
+      from: "emit",
       default: () => {},
     },
-    size: ['size'],
+    size: ["size"],
   },
 
   props: {
@@ -53,6 +59,10 @@ export default {
         data: this.formData[this.modelBin],
       });
     },
+
+    handleInput: debounce(200, function() {
+      this.hanldeEmit("handleChange");
+    }),
   },
 };
 </script>
