@@ -2,10 +2,13 @@
 
 - # Form表单组件;
 	- ### props:
-     	config(表单配置)
-		*object{}*
-         - type 表单的类型：
+     	config ( 配置 ) { key: { value } }
+		 - value  字段的配置 :
+          - type 表单的类型：
 		      number | string | checkbox
+			  
+		  - label：表单 label
+		     string
 		```javascript
       config: {
         name: {
