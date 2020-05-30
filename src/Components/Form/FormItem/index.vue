@@ -44,7 +44,8 @@ export default {
   components:{
     FormItem,
     string: ()=> import('@/Components/Form/FormItem/String.vue'),
-    number: ()=>import('@/Components/Form/FormItem/Number.vue')
+    number: ()=>import('@/Components/Form/FormItem/Number.vue'),
+    checkbox:()=> import('@/Components/Form/FormItem/Checkbox.vue')
   },
 }
 </script>

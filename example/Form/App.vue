@@ -1,6 +1,6 @@
 <template>
   <div>
-    <XyForm  :config='config'/>
+    <XyForm :config="config" />
   </div>
 </template>
 
@@ -47,6 +47,29 @@ export default {
           type: "string",
           label: "省市区",
           group: 2,
+        },
+        checkBox: {
+          type: "checkbox",
+          label: "选择地区",
+          /* 多选选项配置 */
+          checkboxOptions: [
+            {
+              /* 选项的标识符 */
+              id: 1,
+              /* 多选项的 label */
+              label: "广东",
+              /* 是否禁用当前选项 */
+              disabled: true,
+            },
+            {
+              id: 2,
+              label: "深圳",
+            },
+            {
+              id: 3,
+              label: "南山区",
+            },
+          ],
         },
       },
     };

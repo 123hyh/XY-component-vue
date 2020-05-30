@@ -38,7 +38,7 @@ export default {
   provide() {
     return {
       emit: this.emit,
-      size: this.size
+      size: this.size,
     };
   },
   name: "XyForm",
@@ -46,20 +46,20 @@ export default {
     /* 输入框的尺寸 */
     size: {
       type: String,
-      default: "small" /* medium / small / mini */
+      default: "small" /* medium / small / mini */,
     },
 
     /* 表单输入框的配置 */
     config: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
 
     /* 是否为行内表单 */
     inline: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     /**
@@ -77,17 +77,17 @@ export default {
     },
     rulesData() {
       return { ...this.rules, ...this.initalRules };
-    }
+    },
   },
   components: {
     Form,
-    FormItem
+    FormItem,
   },
 
   data() {
     return {
       formData: this.handlerReactData(),
-      initalRules: {}
+      initalRules: {},
     };
   },
   methods: {
@@ -98,7 +98,13 @@ export default {
       const data = {};
       for (const key in this.config) {
         if (this.config.hasOwnProperty(key)) {
-          this.$set(data, key, initalData[key] || "");
+
+          const { type, checkboxOptions } = this.config[key];
+
+          // 初始值类型
+          const value = type === "checkbox" && checkboxOptions ? [] : "";
+
+          this.$set(data, key, initalData[key] || value);
         }
       }
       return data;
@@ -191,7 +197,7 @@ export default {
      * 校验所有表单
      */
     validateAllField() {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         this.$refs.formModel.validate((isPass = false) => {
           const result = { isPass };
           if (isPass) {
@@ -221,8 +227,8 @@ export default {
      */
     validateField(props) {
       this.$refs.formModel.validateField(props);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
