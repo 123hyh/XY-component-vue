@@ -88,7 +88,10 @@ export default {
       const { id } = clickData;
       if (id !== undefined) {
         const checked = targetData.includes(id);
-        this.$emit("handleClickChange", { checked, sourceData: clickData });
+        this.emit({
+          target: "handleClickChekbox",
+          data: { checked, sourceData: clickData },
+        });
       }
     }),
   },

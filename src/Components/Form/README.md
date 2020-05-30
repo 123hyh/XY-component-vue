@@ -49,6 +49,19 @@
         },
       },
 ```
+	- ### events:
+```javascript
+      /**
+       * @param {string} target 触发事件的字段名
+       * @param { object } data 触发时的数据
+       */
+      ( { target, data } ) => {};
+```
+	  - **handleFocus**： 获取焦点时事件
+	  - **handleBlur**：失去焦点时事件
+	  - **handleClear**：点击输入框尾部清除事件
+	  - **handleChange**： 输入框值发生变化时触发的事件
+	  - **handleClickChekbox** 多选框点击时触发的事件
 
 # util(工具函数)
 
