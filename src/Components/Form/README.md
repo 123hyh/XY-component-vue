@@ -1,9 +1,10 @@
-[TOC]
+- # Form表单组件
 
-- # Form表单组件;
-	- ### props:
-     	config ( 配置 ) { key: { value } }
-		```javascript
+***
+
+  *  ## props:
+     * ### config ( 配置 ) { key: { value } }
+      ```javascript
       config = {
         name: {
           /* 表单类型 */
@@ -48,41 +49,21 @@
           ],
         },
       },
-```
-	- ### events:
+      ```
 
-	  - **handleFocus**： 获取焦点时事件
-	  - **handleBlur**：失去焦点时事件
-	  - **handleClear**：点击输入框尾部清除事件
-	  - **handleChange**： 输入框值发生变化时触发的事件
-	  - **handleClickChekbox** 多选框点击时触发的事件
+  > ## events:
+    - **handleFocus**： 获取焦点时事件
+    - **handleBlur**：失去焦点时事件
+    - **handleClear**：点击输入框尾部清除事件
+    - **handleChange**： 输入框值发生变化时触发的事件
+    - **handleClickChekbox** 多选框点击时触发的事件
+
 	  ```javascript
-			  /**
-			   * @param {string} target 触发事件的字段名
-			   * @param { object } data 触发时的数据
-			   */
-			  ( { target, data } ) => {};
-		```
+	   /**
+	   * @param {string} target 触发事件的字段名
+	   * @param { object } data 触发时的数据
+	   */
+	   ( { target, data } ) => {
 
-# util(工具函数)
-
-    editor.md/
-            lib/
-            css/
-            scss/
-            tests/
-            fonts/
-            images/
-            plugins/
-            examples/
-            languages/     
-            editormd.js
-            ...
-
-```html
-<!-- English -->
-<script src="../dist/js/languages/en.js"></script>
-
-<!-- 繁體中文 -->
-<script src="../dist/js/languages/zh-tw.js"></script>
-```
+      };
+	  ```
