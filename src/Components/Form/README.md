@@ -4,7 +4,7 @@
 	- ### props:
      	config ( 配置 ) { key: { value } }
 		```javascript
-      config: {
+      config = {
         name: {
           /* 表单类型 */
           type: "string",
