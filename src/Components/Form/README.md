@@ -6,7 +6,7 @@
 		 - value  字段的配置 :
           - type 表单的类型：
 		      number | string | checkbox
-			  
+
 		  - label：表单 label
 		     string
 		```javascript
