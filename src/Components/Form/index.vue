@@ -2,7 +2,7 @@
   <div>
     <Form
       class="xy-form"
-      :inline='inline'
+      :inline="inline"
       :model="formData"
       :rules="rulesData"
       ref="formModel"
@@ -30,74 +30,33 @@
 </template>
 
 <script>
-import { Form } from 'element-ui';
-import FormItem from '@/Components/Form/FormItem/index.vue';
-import { cloneData, traversalObject } from '@/utils/index';
-import Vue from 'vue';
-var conf = {
-  name: {
-    /* 表单类型 */
-    type: 'string',
-    /* 数字保留小数位数 */
-    decimal: 0,
-    /* 表单 label */
-    label: '姓名',
-    /* 分组标识符 */
-    group: 1,
-    /* 当前组中的序号 */
-    order: 2,
-    /* 占位符 */
-    placeholder: '姓名',
-    /* 是否可清空 */
-    clearable: true,
-    /* 是否显示切换密码图标 */
-    showPassword: true,
-    /* 校验规则 */
-    rules: [
-      {
-        message: '必填',
-        trigger: 'blur',
-        required: true,
-      },
-    ],
-  },
-  password: {
-    type: 'number',
-    label: '密码',
-    clearable: true,
-    order: 1,
-    group: 1,
-  },
-  address: {
-    type: 'string',
-    label: '省市区',
-    group: 2,
-  },
-};
+import { Form } from "element-ui";
+import FormItem from "@/Components/Form/FormItem/index.vue";
+import { cloneData, traversalObject } from "@/utils/index";
+
 export default {
   provide() {
     return {
       emit: this.emit,
-      size: this.size,
+      size: this.size
     };
   },
-  name: 'XyForm',
+  name: "XyForm",
   props: {
-
     /* 输入框的尺寸 */
     size: {
       type: String,
-      default: 'small' /* medium / small / mini */,
+      default: "small" /* medium / small / mini */
     },
 
     /* 表单输入框的配置 */
     config: {
       type: Object,
-      default: () => conf,
+      default: () => {}
     },
 
     /* 是否为行内表单 */
-    inline:{
+    inline: {
       type: Boolean,
       default: false
     }
@@ -118,17 +77,17 @@ export default {
     },
     rulesData() {
       return { ...this.rules, ...this.initalRules };
-    },
+    }
   },
   components: {
     Form,
-    FormItem,
+    FormItem
   },
 
   data() {
     return {
       formData: this.handlerReactData(),
-      initalRules: {},
+      initalRules: {}
     };
   },
   methods: {
@@ -139,7 +98,7 @@ export default {
       const data = {};
       for (const key in this.config) {
         if (this.config.hasOwnProperty(key)) {
-          this.$set(data, key, initalData[key] || '');
+          this.$set(data, key, initalData[key] || "");
         }
       }
       return data;
@@ -232,7 +191,7 @@ export default {
      * 校验所有表单
      */
     validateAllField() {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         this.$refs.formModel.validate((isPass = false) => {
           const result = { isPass };
           if (isPass) {
@@ -262,8 +221,8 @@ export default {
      */
     validateField(props) {
       this.$refs.formModel.validateField(props);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">
@@ -274,7 +233,7 @@ export default {
       border-color: #01b1f6;
     }
   }
-  .el-form-item__error{
+  .el-form-item__error {
     padding-top: 0;
   }
 }
