@@ -32,3 +32,4 @@ export const resizable = ( minwidth = 140, minheight = 140 ) => ( {
   componentUpdated() {},
   unbind() {},
 } );
+

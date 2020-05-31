@@ -9,31 +9,32 @@
       layout="prev, pager, next, sizes"
       :total="total"
     />
+    <slot name="paginaAfter" />
   </div>
 </template>
 
 <script>
-import { Pagination } from 'element-ui';
+import { Pagination } from "element-ui";
 export default {
   components: {
-    XyPagination: Pagination,
+    XyPagination: Pagination
   },
   props: {
     /* 每页显示条数的集合 */
     pageSizes: {
       type: Array,
-      default: () => [10, 30, 50, 100],
+      default: () => [10, 30, 50, 100]
     },
     /* 条数 */
     total: {
       type: Number,
-      default: 1000,
-    },
+      default: 1000
+    }
   },
   data() {
     return {
       currentPage: 1,
-      currentPageSize: 10,
+      currentPageSize: 10
     };
   },
   methods: {
@@ -46,18 +47,24 @@ export default {
       this.emitEvent();
     },
     emitEvent() {
-      this.$emit('handlePagingChange', {
+      this.$emit("handlePagingChange", {
         pageIndex: this.currentPage,
-        pageSize: this.currentPageSize,
+        pageSize: this.currentPageSize
       });
     },
     // 重置分页
     resetPage() {
       this.currentPage = 1;
       this.currentPageSize = 10;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style></style>
+<style lang='scss'>
+.xy-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>
