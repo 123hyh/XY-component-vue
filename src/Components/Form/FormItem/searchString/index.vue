@@ -1,151 +1,252 @@
 <template>
   <div>
-    <XyPopover
-      v-model="showPopover"
-      ref="popover"
-      title="表格"
-      :disabled="options.disabled"
-      popper-class="xy-search-popover"
-      placement='bottom-start'
-      trigger="click"
-      @show="handlerShowPopover"
-      @hide="handlerHidePopover"
-
-
-
-    >
-      <XyTable v-if="visible" @handleTableClickRow="handleTableClickRow">
-        <!-- 点击一行显示选中icon -->
-        <template v-slot:right="{currentData}">
-          <i
-            class="el-icon-success el-primary-color"
-            style="font-size: 20px"
-            v-if="currentData.key === currentRowData.key"
-          ></i>
-        </template>
-        <!-- 分页后置slot -->
-        <template v-slot:paginaAfter>
-          <div>
-            <XyButton :size="size" type="primary" @click.stop="handlerConfirm">确定</XyButton>
-            <XyButton :size="size" @click.stop="handlerCancel">取消</XyButton>
-          </div>
-        </template>
-      </XyTable>
-    </XyPopover>
     <XyInput
+      :title="formData[modelBin]"
+      class="xy-search-string"
       :readonly="options.readonly"
-      v-popover:popover
-      :disabled="options.disabled"
       :size="size"
-      slot="reference"
-      :suffix-icon="icon"
       v-model="formData[modelBin]"
-    ></XyInput>
+    >
+      <XyButton
+        v-if="!options.disabled"
+        @click.stop="() => handlerClickSearch(modelBin)"
+        title="点击查看列表"
+        slot="append"
+        icon="el-icon-search"
+      ></XyButton>
+    </XyInput>
+    <!-- 列表弹窗 -->
+    <XyModal
+      width="900px"
+      customClass="xy-search-string-modal"
+      :visible.sync="visible"
+      :title="modalOptions.title"
+    >
+      <template v-slot:content>
+        <div>
+          <!-- 查询栏 -->
+          <XySearchForm
+            :config="modalOptions.searchConfig"
+            @handleClickReset="handlerClickReset"
+            @handleClickSearch="handlerModalClickSearch"
+          />
+          <!-- 表格 -->
+          <XyTable
+            v-if="resetTable"
+            :list="modalData"
+            customerClass="xy-search-string-table"
+            @handleTableClickRow="handlerTableClickRow"
+            @handlePagingChange="handlerPagingChange"
+          >
+            <template v-slot:right="{ currentData }">
+              <i
+                class="el-icon-success"
+                v-if="currentData.key === currentRowData.key"
+              />
+            </template>
+          </XyTable>
+        </div>
+      </template>
+      <!-- 底部按钮 -->
+      <template v-slot:footer>
+        <div class="xy-search-string-dialog-footer">
+          <XyButton type="primary" size="small" @click.stop="handlerConfirm"
+            >确定</XyButton
+          >
+          <XyButton size="small" @click.stop="handlerClose">取消</XyButton>
+        </div>
+      </template>
+    </XyModal>
   </div>
 </template>
 
 <script>
-import { Input, Popover, Button, Message } from "element-ui";
+import { Input, Button, Message } from "element-ui";
 import { isEmptyObject } from "@/utils";
-
 export default {
+
   inject: {
     emit: {
       from: "emit",
-      default: () => {}
+      default: () => {},
     },
-    size: ["size"]
+    size: ["size"],
+    /* 列表数据 */
+    modalData: ["modalData"],
   },
   props: {
     formData: {
       type: Object,
-      required: true
+      required: true,
     },
     modelBin: {
       type: String,
-      required: true
+      required: true,
     },
     options: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   components: {
-    XyPopover: Popover,
     XyInput: Input,
     XyButton: Button,
-    XyTable: () => import("@/Components/Table")
+    XyModal: () => import("@/Components/Modal"),
+    XyTable: () => import("@/Components/Table"),
+    XySearchForm: () => import("@/Components/SearchForm"),
   },
 
   computed: {
     // 输入框后面的icon
     icon() {
       return this.options.disabled ? "" : "el-icon-search";
-    }
+    },
+
+    /**
+     * modal的表格配置
+     */
+    modalOptions() {
+      const example = {
+        title: "测试",
+        tableConfig: [],
+        searchConfig: {
+          name: {
+            type: "string",
+            label: "查询1",
+            group: 1,
+            clearable: true,
+          },
+          password: {
+            type: "string",
+            label: "查询2",
+            group: 1,
+            clearable: true,
+          },
+          password1: {
+            type: "string",
+            label: "查询3",
+            group: 1,
+            clearable: true,
+          },
+        },
+      };
+      return this.options.modalOptions ?? example;
+    },
   },
   data() {
     return {
-      showPopover: false,
       visible: false,
-      currentRowData: {}
+      currentRowData: {},
+      resetTable: true,
+      searchFormData: {},
     };
   },
   methods: {
-    handleTableClickRow(currentData) {
-      this.currentRowData = { ...currentData };
-    },
-    handlerShowPopover() {
+    /**
+     * 点击输入框尾部按钮
+     */
+    handlerClickSearch() {
       this.visible = true;
+      this.handlerEmitClickSearch();
     },
-    handlerHidePopover() {
-      setTimeout(() => {
-        this.visible = false;
-        this.currentRowData = {};
-      }, 300);
+    /**
+     * 向上传递 search 事件
+     */
+    handlerEmitClickSearch(data = {}) {
+      this.emit("handleClickSearch", {
+        target: this.modelBin,
+        data: { ...this.searchFormData, ...data },
+      });
     },
-    /* 点击确定按钮 */
+
+    /**
+     * 关闭弹窗
+     */
+    handlerClose() {
+      this.visible = false;
+      this.currentRowData = {};
+    },
+
+    /**
+     * 点击确定按钮
+     */
     handlerConfirm() {
       if (isEmptyObject(this.currentRowData)) {
         return Message({
           type: "warning",
-          message: "请选中一条数据再点击确定！"
+          message: "请选择一条数据再继续操作",
         });
       }
-      this.emit("handlePopoverConfirm", { ...this.currentRowData });
-      this.showPopover = false;
+      this.emit("handleModalConfirm", { ...this.currentRowData });
     },
-    /* 点击取消按钮 */
-    handlerCancel() {
-      this.showPopover = false
-      this.handlerHidePopover()
-    }
-  }
+
+    /**
+     * 点击表格一行数据
+     */
+    handlerTableClickRow(currentRowData = {}) {
+      this.currentRowData = { ...currentRowData };
+    },
+
+    /**
+     * 点击分页事件
+     */
+    handlerPagingChange(pageData = { pageIndex: 1, pageSize: 10 }) {
+      this.handlerEmitClickSearch({ ...pageData });
+    },
+    /**
+     * modal 查询栏点击 重置按钮
+     */
+    handlerClickReset() {
+      this.searchFormData = {};
+      this.handlerPagingChange();
+      this.handlerResetTable();
+    },
+
+    /**
+     * 重置table 分页bug
+     */
+    handlerResetTable() {
+      this.resetTable = false;
+      this.$nextTick(() => {
+        this.resetTable = true;
+      });
+    },
+    /**
+     * modal 查询栏点击查询
+     */
+    handlerModalClickSearch(data = {}) {
+      this.searchFormData = data;
+      this.handlerEmitClickSearch();
+      this.handlerResetTable();
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-.xy-search-popover {
-  .xy-table {
-    .el-table {
-      max-height: calc(100vh - 150px);
-      overflow: auto;
-      .el-primary-color {
-        color: #409eff;
-      }
-      .current-row {
-        background: initial;
-        color: #409eff;
-        > td {
-          background-color: initial;
-        }
-      }
+$xy-primary: #409eff;
+.xy-search-string {
+  .el-input-group__append {
+    cursor: pointer;
+  }
+  .el-dialog__header {
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+  }
+}
+.xy-search-string-modal {
+  .el-input__inner {
+    border-color: #f0f0f0;
+  }
+  .xy-search-string-table {
+    .el-icon-success {
+      color: $xy-primary;
+      font-size: 20px;
     }
-    .xy-pagination {
-      padding-top: 10px;
-      .el-pagination {
-        width: max-content;
-      }
+    .el-table__body-wrapper {
+      max-height: 500px;
+      overflow: auto;
     }
   }
 }

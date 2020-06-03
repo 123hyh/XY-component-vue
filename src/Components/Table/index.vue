@@ -1,5 +1,5 @@
 <template>
-  <div class="xy-table">
+  <div :class="`xy-table ${customerClass}`">
     <XyTable
       highlight-current-row
       @row-click="handlerClickRow"
@@ -33,11 +33,20 @@
           </XyForm>
         </template>
       </XyTableColumn>
-      <XyTableColumn width="150" property="date" label="日期" sortable="custom"></XyTableColumn>
+      <XyTableColumn
+        width="150"
+        property="date"
+        label="日期"
+        sortable="custom"
+      ></XyTableColumn>
       <XyTableColumn width="100" property="name" label="姓名"></XyTableColumn>
-      <XyTableColumn width="300" property="address" label="地址"></XyTableColumn>
+      <XyTableColumn
+        width="300"
+        property="address"
+        label="地址"
+      ></XyTableColumn>
       <!-- 右边的插槽 -->
-      <XyTableColumn  fixed="right" v-if="$scopedSlots.right">
+      <XyTableColumn fixed="right" v-if="$scopedSlots.right">
         <template slot-scope="scope">
           <slot name="right" :currentData="scope.row" />
         </template>
@@ -45,7 +54,7 @@
     </XyTable>
     <!-- 分页条 -->
     <div>
-      <XyPagination>
+      <XyPagination @handlePagingChange="handlerPagingChange">
         <!-- 分页条后置slot -->
         <template v-slot:paginaAfter>
           <slot name="paginaAfter" />
@@ -56,55 +65,37 @@
 </template>
 
 <script>
-import { Table, TableColumn, Form, FormItem } from "element-ui";
+import { Table, TableColumn, Form, FormItem, Popover } from "element-ui";
+
 export default {
   components: {
     XyForm: Form,
     XyFormItem: FormItem,
     XyTable: Table,
     XyTableColumn: TableColumn,
-    XyPagination: () => import("@/Components/Pagination")
+    XyPagination: () => import("@/Components/Pagination"),
+    XyPopover: Popover,
   },
   props: {
     // 表格数据
     list: {
       type: Array,
-      default: () => [
-        {
-          key: 1,
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          key: 2,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          key: 3,
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          key: 4,
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        }
-      ]
+      default: () => [],
+    },
+    // class
+    customerClass: {
+      type: String,
+      default: "",
     },
     // 加载状态
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 是否显示分页条
     paging: {
       type: Boolean,
-      default: true
+      default: true,
     },
     /**
      * 表格配置
@@ -120,9 +111,9 @@ export default {
         /* 是否固定 true | left | right	 */
         fixed: "",
         /* 可见的 默认为  false */
-        visible: false
-      }
-    }
+        visible: false,
+      },
+    },
   },
   methods: {
     /* 点击排序事件 */
@@ -132,8 +123,14 @@ export default {
     /* 点击一行数据 */
     handlerClickRow(currentData) {
       this.$emit("handleTableClickRow", currentData);
-    }
-  }
+    },
+    /**
+     * 点击分页
+     */
+    handlerPagingChange(data) {
+      this.$emit("handlePagingChange", data);
+    },
+  },
 };
 </script>
 

@@ -22,9 +22,10 @@
           @checkingInput="checkingInput"
           :key="`xy_form_group_item_${cindex}`"
         />
+        <slot :name="`form-after-slot-${key}`"></slot>
       </div>
-      <button @click.prevent="validateAllField">校验</button>
-      <button @click.prevent="() => resetFields()">清空</button>
+      <!-- <button @click.prevent="validateAllField">校验</button>
+      <button @click.prevent="() => resetFields()">清空</button> -->
     </Form>
   </div>
 </template>
@@ -40,10 +41,12 @@ import {
 } from "@/utils/index";
 
 export default {
+  /* 以下数据穿透到子组件 */
   provide() {
     return {
       emit: this.emit,
       size: this.size,
+      modalData: this.modalData,
     };
   },
   name: "XyForm",
@@ -64,6 +67,37 @@ export default {
     inline: {
       type: Boolean,
       default: false,
+    },
+
+    /* modal 表格数据 */
+    modalData: {
+      type: Array,
+      default: () => [
+        {
+          key: 1,
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          key: 2,
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          key: 3,
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+        {
+          key: 4,
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
+        },
+      ],
     },
   },
   computed: {
@@ -270,6 +304,9 @@ export default {
   }
   .el-form-item__error {
     padding-top: 0;
+  }
+  .el-button {
+    border-radius: 1px;
   }
 }
 </style>
