@@ -67,6 +67,7 @@ export default {
     handlerFlexible() {
       this.toggle = !this.toggle;
     },
+
     /**
      * 点击重置
      */
@@ -74,6 +75,7 @@ export default {
       this.formModel.resetFields();
       this.$emit("handleClickReset");
     },
+
     /**
      * 点击查询
      */

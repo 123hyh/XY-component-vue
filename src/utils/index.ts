@@ -207,11 +207,35 @@ export function traversalObject(
   }
 }
 /**
+ * 节流函数
+ * @param date 节流的时间（毫秒）
+ * @param callback 达到节流时间需要执行的回调函数
+ */
+export function throttle( date:number, callback:( ...args:any[] )=>any ) {
+
+  // 上一个执行回调的时间
+  let timer = Date.now();
+
+  return function  handlerEvent( this: any ) {
+
+    // 1 、先计算 当前时间 - 上一次执行完 Callback的时间
+    const currentTime = Date.now();
+    const differ = currentTime - ( timer || 0 );
+
+    // 2、如果这个时间差 大于等于 传入的date时候 执行回调函数，并赋值当前时间给timer 以被下次 判断
+    if ( differ >= date ) {
+      callback.call( this, ...arguments );
+      timer = currentTime;
+    }
+  };
+}
+/**
  * 防抖函数
  * @param {number} time 防抖时间
  * @param {function} handler 需要执行的回调函数
  * @param {boolean} immediate 是否立即执行该回调
  */
+
 export function debounce(
   time: number, 
   handler: ( ...args: any[] ) => any,

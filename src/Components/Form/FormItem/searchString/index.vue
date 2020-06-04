@@ -154,6 +154,7 @@ export default {
      * 向上传递 search 事件
      */
     handlerEmitClickSearch(data = {}) {
+      debugger
       this.emit("handleClickSearch", {
         target: this.modelBin,
         data: { ...this.searchFormData, ...data },
@@ -192,6 +193,7 @@ export default {
      * 点击分页事件
      */
     handlerPagingChange(pageData = { pageIndex: 1, pageSize: 10 }) {
+      debugger
       this.handlerEmitClickSearch({ ...pageData });
     },
     /**
