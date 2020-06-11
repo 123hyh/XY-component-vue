@@ -10,6 +10,10 @@
       @handleChange="handleChange"
       @handleClickChekbox="handleClickChekbox"
       @handlerSearchSelectData="handlerSearchSelectData"
+      @handleClickSearch='handleClickSearch'
+      @handleModalConfirm='handleModalConfirm'
+      @handleListModalClickSearch='handlerListModalClickSearch'
+      @handleListModalClickReset='handlerListModalClickReset'
     />
   </div>
 </template>
@@ -182,6 +186,28 @@ export default {
     };
   },
   methods: {
+    /**
+     * 列表弹窗点击search 事件
+     */
+    handlerListModalClickSearch(data){
+      debugger
+    },
+    /**
+     * 列表弹窗点击 reset 按钮事件
+     */
+    handlerListModalClickReset(data){
+      debugger
+
+    },
+    /**
+     * modal点击确定
+     */
+    handleModalConfirm(data){
+      debugger
+    },
+    handleClickSearch(data){
+      debugger
+    },
     handleFocus() {
       // console.log(`foucs`, arguments);
     },

@@ -27,6 +27,10 @@
       <!-- <button @click.prevent="validateAllField">校验</button>
       <button @click.prevent="() => resetFields()">清空</button> -->
     </Form>
+    <ListModal
+      :currentFormItem="currentListModalTarget"
+      @handleCloseListModal="handlerCloseListModal"
+    />
   </div>
 </template>
 
@@ -41,7 +45,20 @@ import {
 } from "@/utils/index";
 
 export default {
+  created() {
+    // 点击尾部按钮
+    this.$on("handleSearchStringBtnClick", function({ options } = {}) {
+      this.currentListModalTarget = options;
+      this.ListModalHandlerFn && this.ListModalHandlerFn();
+    });
+    // 保存弹窗的控制显示的回调
+    this.$on("handleListModalVisible", (handlerFn) => {
+      this.ListModalHandlerFn = handlerFn;
+    });
+  },
+
   /* 以下数据穿透到子组件 */
+
   provide() {
     return {
       emit: this.emit,
@@ -121,12 +138,16 @@ export default {
   components: {
     Form,
     FormItem,
+    ListModal: () => import("@/Components/Form/ListModal.vue"),
   },
 
   data() {
     return {
       formData: this.handlerReactData(),
       initalRules: {},
+      // 列表弹窗显示回调
+      ListModalHandlerFn: null,
+      currentListModalTarget: {},
     };
   },
   methods: {
@@ -287,6 +308,13 @@ export default {
       } else {
         console.error("参数必须是一个对象 { key: value }");
       }
+    },
+    /**
+     * 列表弹窗关闭做清空动作
+     */
+    handlerCloseListModal() {
+      debugger;
+      this.currentListModalTarget = {};
     },
   },
 };

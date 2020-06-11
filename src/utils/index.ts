@@ -224,7 +224,10 @@ export function throttle( date:number, callback:( ...args:any[] )=>any ) {
 
     // 2、如果这个时间差 大于等于 传入的date时候 执行回调函数，并赋值当前时间给timer 以被下次 判断
     if ( differ >= date ) {
-      callback.call( this, ...arguments );
+      setTimeout( () => {
+        callback.call( this, ...arguments );
+      } );
+      
       timer = currentTime;
     }
   };
@@ -290,3 +293,5 @@ export const Email_REG =  /(.+)@{1}?(.+)\.{1}?\w+/;
  * 大陆手机号正则表达式
  */
 export const CHPhoneReg = new RegExp( '^1(3|4|5|6|7|8|9)(\\d){9}$' );
+
+
