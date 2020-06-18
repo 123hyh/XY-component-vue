@@ -10,10 +10,10 @@
       @handleChange="handleChange"
       @handleClickChekbox="handleClickChekbox"
       @handlerSearchSelectData="handlerSearchSelectData"
-      @handleClickSearch='handleClickSearch'
-      @handleModalConfirm='handleModalConfirm'
-      @handleListModalClickSearch='handlerListModalClickSearch'
-      @handleListModalClickReset='handlerListModalClickReset'
+      @handleClickSearch="handleClickSearch"
+      @handleModalConfirm="handleModalConfirm"
+      @handleListModalClickSearch="handlerListModalClickSearch"
+      @handleListModalClickReset="handlerListModalClickReset"
     />
   </div>
 </template>
@@ -77,6 +77,48 @@ export default {
               required: true,
             },
           ],
+          // 弹窗配置
+          modalOptions: {
+            // 标题
+            title: "测试",
+            // 表格配置
+            tableConfig: [],
+            // 查询栏表单配置
+            searchConfig: {
+              /* name: {
+                type: "string",
+                label: "查询1",
+                group: 1,
+                clearable: true,
+              },
+              password: {
+                type: "string",
+                label: "查询2",
+                group: 1,
+                clearable: true,
+              },
+              password1: {
+                type: "string",
+                label: "查询3",
+                group: 1,
+                clearable: true,
+              },
+              password2: {
+                type: "string",
+                label: "查询4",
+                group: 1,
+                clearable: true,
+                visible: false
+              },
+              password3: {
+                type: "string",
+                label: "查询5",
+                group: 1,
+                clearable: true,
+                visible: false
+              }, */
+            },
+          },
           tableOption: [],
           order: 0.1,
           group: 1,
@@ -189,24 +231,23 @@ export default {
     /**
      * 列表弹窗点击search 事件
      */
-    handlerListModalClickSearch(data){
-      debugger
+    handlerListModalClickSearch(data) {
+      debugger;
     },
     /**
      * 列表弹窗点击 reset 按钮事件
      */
-    handlerListModalClickReset(data){
-      debugger
-
+    handlerListModalClickReset(data) {
+      debugger;
     },
     /**
      * modal点击确定
      */
-    handleModalConfirm(data){
-      debugger
+    handleModalConfirm(data) {
+      debugger;
     },
-    handleClickSearch(data){
-      debugger
+    handleClickSearch(data) {
+      debugger;
     },
     handleFocus() {
       // console.log(`foucs`, arguments);
@@ -260,7 +301,41 @@ export default {
     setTimeout(() => {
       // this.config.player1.selectOptions.push({id:6,label: '115'})
       // this.$refs.xyForm.setFields({ checkBox: [1,2] });
-    }, 1000);
+      this.config.currentPay1.modalOptions.searchConfig = {
+        name: {
+          type: "string",
+          label: "查询1",
+          group: 1,
+          clearable: true,
+        },
+        password: {
+          type: "string",
+          label: "查询2",
+          group: 1,
+          clearable: true,
+        },
+        password1: {
+          type: "string",
+          label: "查询3",
+          group: 1,
+          clearable: true,
+        },
+        password2: {
+          type: "string",
+          label: "查询4",
+          group: 1,
+          clearable: true,
+          visible: false,
+        },
+        password3: {
+          type: "string",
+          label: "查询5",
+          group: 1,
+          clearable: true,
+          visible: false,
+        },
+      };
+    }, 2000);
   },
 };
 </script>

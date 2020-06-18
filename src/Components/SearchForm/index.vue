@@ -33,6 +33,7 @@
 
 <script>
 import { Button } from "element-ui";
+import { forObject } from "@/utils/index.ts";
 export default {
   computed: {
     /* 图标的方向 */
@@ -43,26 +44,58 @@ export default {
         icon: toggle ? "el-icon-arrow-down" : "el-icon-arrow-up",
       };
     },
+
     formModel() {
       return this.$refs.formModel;
     },
+    newConfig() {
+      /* forObject(this.config, (key, value) => {
+        if(this.toggle){
+          value.visible = !!this.toggle
+        }else{
+          this.rawVisibleItem
+        }
+      }); */
+    },
   },
+
   data() {
     return {
       /* 切换展开 */
       toggle: false,
+      // 原查询显示
+      rawVisibleItem: [],
     };
   },
+
   props: {
     config: {
       type: Object,
       default: () => ({}),
     },
   },
+  watch: {
+    config: {
+      handler(val) {
+        if (Object.keys(val).length === 0) {
+          return;
+        } else {
+          forObject(val, (key, value) => {
+            if (value.visible === false) {
+              this.rawVisibleItem.push(key);
+            }
+          });
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
   components: {
     XyForm: () => import("@/Components/Form"),
     XyButton: Button,
   },
+
   methods: {
     handlerFlexible() {
       this.toggle = !this.toggle;

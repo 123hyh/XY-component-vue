@@ -74,31 +74,13 @@ export default {
      * modal的表格配置
      */
     modalOptions() {
-      const example = {
-        title: "测试",
-        tableConfig: [],
-        searchConfig: {
-          name: {
-            type: "string",
-            label: "查询1",
-            group: 1,
-            clearable: true,
-          },
-          password: {
-            type: "string",
-            label: "查询2",
-            group: 1,
-            clearable: true,
-          },
-          password1: {
-            type: "string",
-            label: "查询3",
-            group: 1,
-            clearable: true,
-          },
-        },
-      };
-      return this.currentFormItem.modalOptions ?? example;
+      return (
+        this.currentFormItem.modalOptions ?? {
+          title: "",
+          tableConfig: [],
+          searchConfig: [],
+        }
+      );
     },
   },
   components: {

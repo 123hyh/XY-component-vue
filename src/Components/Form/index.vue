@@ -13,8 +13,9 @@
         :key="`xy_group_${key}`"
         :class="`xy-form-group xy-form-group-${key}`"
       >
-        <FormItem
-          v-for="(cvalue, cindex) of value"
+        <template v-for="(cvalue, cindex) of value">
+          <FormItem
+          v-if='cvalue.visible !== false'
           :formData="formData"
           :options="cvalue"
           :modelBin="cvalue.modelBin"
@@ -22,6 +23,8 @@
           @checkingInput="checkingInput"
           :key="`xy_form_group_item_${cindex}`"
         />
+        </template>
+        
         <slot :name="`form-after-slot-${key}`"></slot>
       </div>
       <!-- <button @click.prevent="validateAllField">校验</button>

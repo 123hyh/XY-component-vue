@@ -294,4 +294,19 @@ export const Email_REG =  /(.+)@{1}?(.+)\.{1}?\w+/;
  */
 export const CHPhoneReg = new RegExp( '^1(3|4|5|6|7|8|9)(\\d){9}$' );
 
+/**
+ * @description: 遍历对象
+ * @param {object} obj 源对象 
+ * @param {Function} handler 回调函数
+ * @return: 
+ */
+export function forObject( 
+  obj: { [propName:string]: any }, 
+  handler: ( key:string, val: any ) => any 
+) {
+  for ( const key of Object.keys( obj ) ) {
+    handler( key, obj[key] );
+  }
+}
+
 
