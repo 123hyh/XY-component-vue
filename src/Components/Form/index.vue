@@ -15,16 +15,16 @@
       >
         <template v-for="(cvalue, cindex) of value">
           <FormItem
-          v-if='cvalue.visible !== false'
-          :formData="formData"
-          :options="cvalue"
-          :modelBin="cvalue.modelBin"
-          @handleRule="handleRule"
-          @checkingInput="checkingInput"
-          :key="`xy_form_group_item_${cindex}`"
-        />
+            v-if="cvalue.visible !== false"
+            :formData="formData"
+            :options="cvalue"
+            :modelBin="cvalue.modelBin"
+            @handleRule="handleRule"
+            @checkingInput="checkingInput"
+            :key="`xy_form_group_item_${cindex}`"
+          />
         </template>
-        
+
         <slot :name="`form-after-slot-${key}`"></slot>
       </div>
       <!-- <button @click.prevent="validateAllField">校验</button>
@@ -46,8 +46,11 @@ import {
   getType,
   isEmptyObject,
 } from "@/utils/index";
-
+import { decimal } from "@/directive/index.ts";
 export default {
+  directives: {
+    decimal: decimal(),
+  },
   created() {
     // 点击尾部按钮
     this.$on("handleSearchStringBtnClick", function({ options } = {}) {

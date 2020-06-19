@@ -76,6 +76,11 @@ export default {
   },
   watch: {
     config: {
+      /**
+       * @description: 当config 变化时收集 需要显示的输入框字段
+       * @param {type}
+       * @return:
+       */
       handler(val) {
         if (Object.keys(val).length === 0) {
           return;

@@ -310,3 +310,64 @@ export function forObject(
 }
 
 
+export declare type formatDecimalParamsType = {
+  decimal?: number | undefined, 
+  value: number, 
+  ratio?:number
+}
+
+/**
+ * @description: 保留小数及 比例指令
+ * @param {number} option.decimal 保留小数位数
+ * @param {number} option.value 原始数据
+ * @param {number} option.ratio 比例 
+ * @return { string }  如 0.00
+ */
+export const formatDecimal = ( ()=>{
+  
+  const ratioSymbol: {[prop: string]: string} = {
+    100: '%',
+    1000: '‰',
+    10000: '‱'
+  };
+
+  function generateNumber( decimal:number = 0 ): number {
+    return Number( 
+      Array.from( { length: decimal } ).reduce( ( prev ) => {
+        prev += '0';
+        return prev;
+      }, '1' ) 
+    ); 
+  }
+
+  return function formatDecimal( values: formatDecimalParamsType ) {
+    const { decimal = 0, ratio } = values;
+
+    let { value } = values;
+    if (
+      process.env.NODE_ENV === 'development' &&
+      ( value === undefined || isNaN( value ) )
+    ) {
+      console.warn( `请传入正确的 value, 当前value ：${value}` );
+    }
+    // NaN 转为 0, 或者为undefined时
+    ( isNaN( value ) || value === undefined )  && ( value = 0 );
+
+    const divisor = generateNumber( decimal );
+
+    // 如果是整数，并且没有传入 decimals 时 默认保留2位小数
+    let result: string | number = Math.round( value * divisor ) / divisor;
+
+    // 处理传入比例
+    if ( ratio !== undefined ) {
+      result /= ratio;
+    }
+    
+    result = Number.isInteger( result ) && decimal !== undefined ? 
+      result.toFixed( decimal ) : 
+      result;
+
+    return `${result}${ratio !== undefined ? ratioSymbol[ratio] : ''}­`;
+  };
+} )();
+
