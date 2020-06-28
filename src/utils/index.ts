@@ -3,6 +3,7 @@ type ResizableElemParams = {
   minwidth: number;
   minheight: number;
 };
+type AnyObject = {[propName: string]:any}
 /**
  * 缩放元素类
  */
@@ -160,7 +161,7 @@ type cloneDataConf = {
   [key in CloneDataType]: typeof forEach;
 };
 
-const cloneDataConf = {
+const cloneDataConfFn = () => ( {
   array: forEach( Array.of<any>(), ( item, newData ) => {
     newData.push( cloneData( item ) );
   } ),
@@ -173,7 +174,7 @@ const cloneDataConf = {
   set: forEach( new Set(), ( value, newData ) => {
     newData.add( cloneData( value ) );
   } ),
-};
+} );
 
 /**
  * 深克隆数据
@@ -182,6 +183,7 @@ const cloneDataConf = {
  */
 export function cloneData<T extends Object>( data: T ): T {
   const DATA_TYPE = getType( data );
+  const cloneDataConf = cloneDataConfFn();
   // eslint-disable-next-line no-prototype-builtins
   if ( cloneDataConf.hasOwnProperty( DATA_TYPE ) ) {
     data = ( <any>cloneDataConf )[DATA_TYPE]( data );
@@ -296,17 +298,25 @@ export const CHPhoneReg = new RegExp( '^1(3|4|5|6|7|8|9)(\\d){9}$' );
 
 /**
  * @description: 遍历对象
- * @param {object} obj 源对象 
+ * @param {object} sourceObject 源对象 
  * @param {Function} handler 回调函数
+ * @param {object} previous 新对象
  * @return: 
  */
 export function forObject( 
-  obj: { [propName:string]: any }, 
-  handler: ( key:string, val: any ) => any 
+  sourceObject: AnyObject, 
+  handler: (
+    key:string, 
+    val: any,
+    previous :AnyObject
+
+  ) => AnyObject,
+  _previous:AnyObject = {}
 ) {
-  for ( const key of Object.keys( obj ) ) {
-    handler( key, obj[key] );
+  for ( const key of Object.keys( sourceObject ) ) {
+    _previous = handler( key, sourceObject[key], _previous );
   }
+  return _previous;
 }
 
 

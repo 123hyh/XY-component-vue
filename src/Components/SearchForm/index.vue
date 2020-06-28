@@ -1,6 +1,6 @@
 <template>
   <div class="xy-search-form">
-    <XyForm ref="formModel" :config="config">
+    <XyForm ref="formModel" :config="newConfig">
       <template v-slot:form-after-slot-1>
         <div class="xy-search-form-after">
           <div>
@@ -34,7 +34,14 @@
 <script>
 import { Button } from "element-ui";
 import { forObject } from "@/utils/index.ts";
+import { cloneData } from "@/utils/index.ts";
 export default {
+  mounted() {
+    var a = {x:[1,2,3]};
+    var b = cloneData(a)
+    debugger
+    var c = cloneData(a)
+  },
   computed: {
     /* 图标的方向 */
     direction() {
@@ -48,14 +55,28 @@ export default {
     formModel() {
       return this.$refs.formModel;
     },
+    /**
+     * @description: 处理点击展开和收起的查询表单
+     * @param {type}
+     * @return:
+     */
     newConfig() {
-      /* forObject(this.config, (key, value) => {
-        if(this.toggle){
-          value.visible = !!this.toggle
-        }else{
-          this.rawVisibleItem
-        }
-      }); */
+      return forObject(
+        this.config,
+        (key, value, previous) => {
+          if (this.toggle) {
+            const newConfItem = cloneData(value);
+            delete newConfItem.visible;
+            previous[key] = newConfItem;
+          } else {
+            if (value.visible !== false) {
+              previous[key] = value;
+            }
+          }
+          return previous;
+        },
+        {}
+      );
     },
   },
 
@@ -63,8 +84,6 @@ export default {
     return {
       /* 切换展开 */
       toggle: false,
-      // 原查询显示
-      rawVisibleItem: [],
     };
   },
 
@@ -72,28 +91,6 @@ export default {
     config: {
       type: Object,
       default: () => ({}),
-    },
-  },
-  watch: {
-    config: {
-      /**
-       * @description: 当config 变化时收集 需要显示的输入框字段
-       * @param {type}
-       * @return:
-       */
-      handler(val) {
-        if (Object.keys(val).length === 0) {
-          return;
-        } else {
-          forObject(val, (key, value) => {
-            if (value.visible === false) {
-              this.rawVisibleItem.push(key);
-            }
-          });
-        }
-      },
-      immediate: true,
-      deep: true,
     },
   },
   components: {
@@ -133,10 +130,11 @@ export default {
     .xy-form-group {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
       flex-wrap: wrap;
       .el-form-item {
         flex-basis: 32%;
+        margin: 0 5px;
       }
       .xy-search-form-after {
         flex-grow: 1;
