@@ -1,15 +1,25 @@
+<!--
+ * @Author: huangyuhui
+ * @since: 2020-05-30 16:52:44
+ * @LastAuthor: huangyuhui
+ * @lastTime: 2020-06-29 17:20:41
+ * @message: 
+ * @FilePath: \XY-component-vue\src\Components\Form\FormItem\SearchSelect.vue
+-->
 <template>
+  <!-- @click.native.stop="handlerFocus" -->
+
   <XySelect
+    :clearable="true"
     :size="size"
     v-model="formData[modelBin]"
-    multiple
+    :multiple="options.multiple"
     filterable
     remote
     reserve-keyword
     :placeholder="options.placeholder"
     :remote-method="remoteMethod"
     :loading="loading"
-    @click.native.stop="handlerFocus"
   >
     <XyOption
       v-for="item in options.selectOptions || []"
@@ -61,7 +71,8 @@ export default {
     handlerFocus: debounce(200, function(e) {
       this.remoteMethod();
     }),
-    remoteMethod: debounce(150, function(keyword = "") {
+    remoteMethod: debounce(200, function(keyword = "") {
+      console.log(keyword);
       const { selectOptions = [] } = this.options;
 
       /* 是否可触发条件 */

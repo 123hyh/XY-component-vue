@@ -1,5 +1,13 @@
+<!--
+ * @Author: huangyuhui
+ * @since: 2020-06-01 08:48:25
+ * @LastAuthor: huangyuhui
+ * @lastTime: 2020-06-29 16:58:18
+ * @message: 表单Item组件
+ * @FilePath: \XY-component-vue\src\Components\Form\FormItem\index.vue
+--> 
 <template>
-  <FormItem :label="options.label" :prop="options.modelBin">
+  <FormItem  :label="options.label" :prop="options.modelBin">
     <component
       :is="inputType"
       :modelBin="modelBin"

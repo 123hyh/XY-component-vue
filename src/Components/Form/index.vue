@@ -1,5 +1,15 @@
+<!--
+ * @Author: huangyuhui
+ * @since: 2020-05-30 09:02:47
+ * @LastAuthor: huangyuhui
+ * @lastTime: 2020-06-29 17:52:52
+ * @message: 表单组件
+ * @FilePath: \XY-component-vue\src\Components\Form\index.vue
+-->
+
 <template>
   <div>
+    <!-- 表单 -->
     <Form
       class="xy-form"
       :inline="inline"
@@ -8,28 +18,54 @@
       ref="formModel"
       :validate-on-rule-change="false"
     >
-      <div
-        v-for="(value, key) of groupFormConfig"
-        :key="`xy_group_${key}`"
-        :class="`xy-form-group xy-form-group-${key}`"
-      >
-        <template v-for="(cvalue, cindex) of value">
+      <!-- 不分组 FormItem -->
+      <template v-if="_FormLen === 1">
+        <template v-for="(cvalue, key) of config">
           <FormItem
             v-if="cvalue.visible !== false"
             :formData="formData"
             :options="cvalue"
-            :modelBin="cvalue.modelBin"
+            :modelBin="key"
             @handleRule="handleRule"
             @checkingInput="checkingInput"
-            :key="`xy_form_group_item_${cindex}`"
+            :key="`xy_form_item_${key}`"
           />
         </template>
-
-        <slot :name="`form-after-slot-${key}`"></slot>
-      </div>
-      <!-- <button @click.prevent="validateAllField">校验</button>
-      <button @click.prevent="() => resetFields()">清空</button> -->
+        <slot :name="`form-after-slot-1`"></slot>
+      </template>
+      <!-- 分组 FormItem -->
+      <template v-else>
+        <template v-for="(value, key) of groupFormConfig">
+          <div
+            :key="`xy_group_${key}`"
+            :class="`xy-form-group xy-form-group-${key}`"
+          >
+            <!-- 分组标题 -->
+            <h3 class="group-title">title</h3>
+            <!-- 分组表单内容 -->
+            <div class="xy-form-group-content">
+              <div
+                :key="`xy_form_group_item_${cindex}`"
+                v-for="(cvalue, cindex) of value"
+                :data-fields="cvalue.modelBin"
+              >
+                <FormItem
+                  v-if="cvalue.visible !== false"
+                  :formData="formData"
+                  :options="cvalue"
+                  :modelBin="cvalue.modelBin"
+                  @handleRule="handleRule"
+                  @checkingInput="checkingInput"
+                />
+              </div>
+              <!-- 分组尾部插槽 -->
+              <slot :name="`form-after-slot-${key}`"></slot>
+            </div>
+          </div>
+        </template>
+      </template>
     </Form>
+    <!-- 表格选项弹窗 -->
     <ListModal
       :currentFormItem="currentListModalTarget"
       @handleCloseListModal="handlerCloseListModal"
@@ -40,17 +76,15 @@
 <script>
 import { Form } from "element-ui";
 import FormItem from "@/Components/Form/FormItem/index.vue";
+import { forObject } from "@/utils/index.ts";
+
 import {
   cloneData,
   traversalObject,
   getType,
   isEmptyObject,
 } from "@/utils/index";
-import { decimal } from "@/directive/index.ts";
 export default {
-  directives: {
-    decimal: decimal(),
-  },
   created() {
     // 点击尾部按钮
     this.$on("handleSearchStringBtnClick", function({ options } = {}) {
@@ -63,16 +97,6 @@ export default {
     });
   },
 
-  /* 以下数据穿透到子组件 */
-
-  provide() {
-    return {
-      emit: this.emit,
-      size: this.size,
-      modalData: this.modalData,
-    };
-  },
-  name: "XyForm",
   props: {
     /* 输入框的尺寸 */
     size: {
@@ -139,6 +163,9 @@ export default {
     },
     rulesData() {
       return { ...this.rules, ...this.initalRules };
+    },
+    _FormLen() {
+      return Object.keys(this.groupFormConfig).length;
     },
   },
   components: {
@@ -291,7 +318,16 @@ export default {
      * 清空字段及移除所有校验结果
      */
     resetFields() {
-      return this.$refs.formModel.resetFields();
+      this.$refs.formModel.resetFields();
+      //  避免隐藏字段不清除
+      {
+        const formData = this.formData;
+        forObject(formData, (key, value, sourceData) => {
+          if (value !== undefined) {
+            formData[key] = undefined;
+          }
+        });
+      }
     },
 
     /**
@@ -323,10 +359,62 @@ export default {
       this.currentListModalTarget = {};
     },
   },
+
+  /* 以下数据穿透到子组件 */
+
+  provide() {
+    return {
+      emit: this.emit,
+      size: this.size,
+      modalData: this.modalData,
+    };
+  },
+  name: "XyForm",
 };
 </script>
 <style lang="scss">
 .xy-form {
+  .xy-form-group {
+    padding: 10px;
+    &:not(:last-child) {
+      border-bottom: 1px solid #a9a9a9;
+    }
+    .group-title {
+      margin: 10px;
+      text-indent: 10px;
+      border-left: 5px transparent solid;
+      border-image: linear-gradient(to bottom, #7597eb, #23b7cb) 1 10;
+    }
+    > .xy-form-group-content {
+      display: flex;
+      flex-wrap: wrap;
+      > [data-fields] {
+        flex-basis: 24%;
+      }
+      .el-form-item {
+        height: 50px;
+        display: flex;
+        .el-form-item__label {
+          flex-basis: 8em;
+        }
+        .el-form-item__content {
+          flex-grow: 1;
+        }
+      }
+      .el-form--inline,
+      .el-form-item {
+        margin: 0;
+      }
+      .el-checkbox-group {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        > .el-checkbox {
+          margin-right: 0;
+        }
+      }
+    }
+  }
   input {
     border-radius: 2px;
     &:focus {
@@ -338,6 +426,7 @@ export default {
   }
   .el-form-item__error {
     padding-top: 0;
+    top: initial;
   }
   .el-button {
     border-radius: 1px;

@@ -1,3 +1,12 @@
+<!--
+ * @Author: huangyuhui
+ * @since: 2020-06-03 15:31:32
+ * @LastAuthor: huangyuhui
+ * @lastTime: 2020-06-29 16:58:33
+ * @message: 查询栏组件
+ * @FilePath: \XY-component-vue\src\Components\SearchForm\index.vue
+--> 
+
 <template>
   <div class="xy-search-form">
     <XyForm ref="formModel" :config="newConfig">
@@ -37,10 +46,30 @@ import { forObject } from "@/utils/index.ts";
 import { cloneData } from "@/utils/index.ts";
 export default {
   mounted() {
-    var a = {x:[1,2,3]};
-    var b = cloneData(a)
-    debugger
-    var c = cloneData(a)
+    const result = Array.from({length: 35}).map((_,index)=>{
+      return index +1
+    });
+    //  数组乱序
+    function sort(result) {
+      if (result.length <= 1) return result;
+      let i = 0;
+      const middle = Math.floor(result.length / 2);
+      const first = middle / 2;
+      const last = middle / 2 + middle;
+      const sliceArr = result.splice(first, last + 1);
+      const unshiftData = sliceArr.splice(1, sliceArr.length / 2);
+      result.push(...sort(sliceArr));
+      result.unshift(...sort(unshiftData));
+      return result;
+    }
+    function sort1(time) {
+      let i = 0;
+      let res = []
+      while (i++ < time) {
+        res = sort(result);
+      }
+    }
+    sort1(Math.floor(Math.random() * 100))
   },
   computed: {
     /* 图标的方向 */
@@ -127,7 +156,6 @@ export default {
     padding: 8px 15px;
   }
   .xy-form {
-    .xy-form-group {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -140,7 +168,6 @@ export default {
         flex-grow: 1;
         text-align: right;
       }
-    }
   }
 }
 </style>

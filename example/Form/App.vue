@@ -147,7 +147,15 @@ export default {
             },
             {
               id: 5,
+              label: "桂庙路",
+            },
+            {
+              id: 6,
               label: "文体中心",
+            },
+            {
+              id: 7,
+              label: "二楼",
             },
           ],
           order: 1,
