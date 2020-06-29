@@ -1,6 +1,8 @@
 <template>
   <div class="xy-search-string-box">
     <XyAutocomplete
+      v-if="reset"
+      ref="XyAutocomplete"
       :clearable="true"
       :popper-append-to-body="false"
       :size="size"
@@ -75,6 +77,7 @@ export default {
   data: () => ({
     // 下拉回调
     autocompleteCb: null,
+    reset: true,
   }),
 
   computed: {
@@ -105,7 +108,7 @@ export default {
     },
     // 选中一条数据
     handleSelect(selectData) {
-      this.emit("handleSearchSelectData", {
+      this.emit("handleSearchStringData", {
         target: this.modelBin,
         data: cloneData(selectData),
       });
@@ -229,7 +232,18 @@ export default {
         },
       ];
     },
-    handlerBlur() {},
+    // 清空下拉框
+    handlerBlur() {
+      setTimeout(() => {
+        const data = this.formData[this.modelBin];
+        if (data === "" || data === undefined) {
+          this.reset = false;
+          this.$nextTick(() => {
+            this.reset = true;
+          });
+        }
+      }, 1000);
+    },
   },
 };
 </script>

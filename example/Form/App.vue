@@ -14,6 +14,7 @@
       @handleModalConfirm="handleModalConfirm"
       @handleListModalClickSearch="handlerListModalClickSearch"
       @handleListModalClickReset="handlerListModalClickReset"
+      @handleSearchStringData="handlerSearchStringData"
     />
   </div>
 </template>
@@ -236,6 +237,12 @@ export default {
     };
   },
   methods: {
+    /**
+     * @description: 带searchBtn按钮的下拉选中事件
+     * @param {type}
+     * @return:
+     */
+    handlerSearchStringData(data) {},
     /**
      * 列表弹窗点击search 事件
      */
