@@ -20,24 +20,25 @@
 </template>
 
 <script>
-import { XyForm } from "@/index";
+import { XyForm } from '@/index';
+import { createHttpReqest,setHttpHeader } from '@/utils/index';
 export default {
   data() {
     return {
       config: {
         name: {
           /* 表单类型 */
-          type: "string",
+          type: 'string',
           /* 数字保留小数位数 */
           decimal: 0,
           /* 表单 label */
-          label: "姓名",
+          label: '姓名',
           /* 分组标识符 */
           group: 1,
           /* 当前组中的序号 */
           order: 2,
           /* 占位符 */
-          placeholder: "姓名",
+          placeholder: '姓名',
           /* 是否可清空 */
           clearable: true,
           /* 密码框 是否显示切换密码图标 */
@@ -47,41 +48,41 @@ export default {
           /* 校验规则 */
           rules: [
             {
-              message: "必填",
-              trigger: "blur",
+              message: '必填',
+              trigger: 'blur',
               required: true,
             },
           ],
         },
         password: {
-          type: "number",
-          label: "密码",
+          type: 'number',
+          label: '密码',
           clearable: true,
           order: 1,
           group: 1,
         },
         currentPay: {
-          type: "switch",
-          label: "现付",
+          type: 'switch',
+          label: '现付',
           order: 1,
           group: 1,
         },
         currentPay1: {
-          type: "searchString",
-          label: "表格选项",
+          type: 'searchString',
+          label: '表格选项',
           /* 不可输入 */
           readonly: true,
           rules: [
             {
-              message: "必填",
-              trigger: "change",
+              message: '必填',
+              trigger: 'change',
               required: true,
             },
           ],
           // 弹窗配置
           modalOptions: {
             // 标题
-            title: "测试",
+            title: '测试',
             // 表格配置
             tableConfig: [],
             // 查询栏表单配置
@@ -125,8 +126,8 @@ export default {
           group: 1,
         },
         player: {
-          type: "select",
-          label: "多选下拉",
+          type: 'select',
+          label: '多选下拉',
           /* 是否可搜索的下拉 */
           filterable: true,
           /* 多选下拉 */
@@ -135,28 +136,28 @@ export default {
           selectOptions: [
             {
               id: 2,
-              label: "深圳",
+              label: '深圳',
               disabled: true,
             },
             {
               id: 3,
-              label: "南山区",
+              label: '南山区',
             },
             {
               id: 4,
-              label: "桃源街道",
+              label: '桃源街道',
             },
             {
               id: 5,
-              label: "桂庙路",
+              label: '桂庙路',
             },
             {
               id: 6,
-              label: "文体中心",
+              label: '文体中心',
             },
             {
               id: 7,
-              label: "二楼",
+              label: '二楼',
             },
           ],
           order: 1,
@@ -164,8 +165,8 @@ export default {
         },
 
         player1: {
-          type: "select",
-          label: "单选下拉",
+          type: 'select',
+          label: '单选下拉',
           /* 是否可搜索的下拉 */
           filterable: true,
           /* 多选下拉 */
@@ -174,21 +175,21 @@ export default {
           selectOptions: [
             {
               id: 2,
-              label: "深圳",
+              label: '深圳',
               disabled: true,
             },
             {
               id: 3,
-              label: "南山区",
+              label: '南山区',
             },
             {
               id: 4,
-              label: "桃源街道",
+              label: '桃源街道',
             },
             {
               id: 5,
               label:
-                "文体中心桃源街道文体中心桃源街道文体中心桃源街道文体中心桃源街道文体中心桃源街道",
+                '文体中心桃源街道文体中心桃源街道文体中心桃源街道文体中心桃源街道文体中心桃源街道',
             },
           ],
           order: 1,
@@ -196,8 +197,8 @@ export default {
         },
         searchSelect: {
           /* 可搜索的下拉 */
-          type: "searchSelect",
-          label: "可搜索下拉框",
+          type: 'searchSelect',
+          label: '可搜索下拉框',
           /* 多选下拉 */
           multiple: true,
           selectOptions: [],
@@ -206,30 +207,30 @@ export default {
         },
 
         address: {
-          type: "string",
-          label: "省市区",
+          type: 'string',
+          label: '省市区',
           group: 2,
         },
         checkBox: {
-          type: "checkbox",
-          label: "选择地区",
+          type: 'checkbox',
+          label: '选择地区',
           /* 多选选项配置 */
           checkboxOptions: [
             {
               /* 选项的标识符 */
               id: 1,
               /* 多选项的 label */
-              label: "广东",
+              label: '广东',
               /* 是否禁用当前选项 */
               disabled: true,
             },
             {
               id: 2,
-              label: "深圳",
+              label: '深圳',
             },
             {
               id: 3,
-              label: "南山区",
+              label: '南山区',
             },
           ],
         },
@@ -290,9 +291,9 @@ export default {
           setTimeout(() => {
             resolve({
               data: [
-                { label: "南山区", id: 1 },
-                { label: "罗湖区", id: 2 },
-                { label: "福田区", id: 3 },
+                { label: '南山区', id: 1 },
+                { label: '罗湖区', id: 2 },
+                { label: '福田区', id: 3 },
               ],
             });
           }, 1500);
@@ -313,38 +314,54 @@ export default {
     XyForm,
   },
   mounted() {
+    const requets = createHttpReqest({ baseUrl: 'http://47.106.230.157:8080/apis' });
+    setHttpHeader('x-auth-token',
+    '16ee2e8e-dc3b-4c05-a742-aef273022b33')
+    requets({
+      url: '/exchangerate/search/settting/',
+      method: 'POST',
+      data: {
+        pageIndex: 1,
+        pageSize: 10,
+        source: 'system',
+      },
+    }).then(res=>{
+      debugger
+    }).catch(err=>{
+      debugger
+    })
     setTimeout(() => {
       // this.config.player1.selectOptions.push({id:6,label: '115'})
       // this.$refs.xyForm.setFields({ checkBox: [1,2] });
       this.config.currentPay1.modalOptions.searchConfig = {
         name: {
-          type: "string",
-          label: "查询1",
+          type: 'string',
+          label: '查询1',
           group: 1,
           clearable: true,
         },
         password: {
-          type: "string",
-          label: "查询2",
+          type: 'string',
+          label: '查询2',
           group: 1,
           clearable: true,
         },
         password1: {
-          type: "string",
-          label: "查询3",
+          type: 'string',
+          label: '查询3',
           group: 1,
           clearable: true,
         },
         password2: {
-          type: "string",
-          label: "查询4",
+          type: 'string',
+          label: '查询4',
           group: 1,
           clearable: true,
           visible: false,
         },
         password3: {
-          type: "string",
-          label: "查询5",
+          type: 'string',
+          label: '查询5',
           group: 1,
           clearable: true,
           visible: false,

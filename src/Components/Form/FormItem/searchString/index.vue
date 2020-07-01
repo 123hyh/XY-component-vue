@@ -234,6 +234,7 @@ export default {
     },
     // 清空下拉框
     handlerBlur() {
+      return;
       setTimeout(() => {
         const data = this.formData[this.modelBin];
         if (data === "" || data === undefined) {

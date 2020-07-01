@@ -42,6 +42,7 @@
         "no-proto": "error",
         "no-redeclare": "error",
         "no-dupe-keys": "error",
+        "no-unused-vars": "off",
         "space-infix-ops": ["error", {"int32Hint": false}]
     }
 }

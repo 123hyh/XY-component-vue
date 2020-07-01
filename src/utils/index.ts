@@ -3,7 +3,8 @@ type ResizableElemParams = {
   minwidth: number;
   minheight: number;
 };
-type AnyObject = {[propName: string]:any}
+export * from './request';
+export declare type AnyObject = {[propName: string]:any}
 /**
  * 缩放元素类
  */
