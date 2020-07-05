@@ -381,4 +381,36 @@ export const formatDecimal = ( ()=>{
     return `${result}${ratio !== undefined ? ratioSymbol[ratio] : ''}­`;
   };
 } )();
-
+type AnyFun = ( ...args: any[] ) => void
+type CondomOptions = {
+  success?: AnyFun,
+  catch?: AnyFun,
+  finally?: AnyFun
+}
+/**
+ * 处理报错方法，
+ * @param {Function} fun 主方法 
+ * @description: 捕抓错误及处理
+ * @return: 
+ */
+// eslint-disable-next-line consistent-return
+export async  function condom( fun: () => any, options: CondomOptions = {} )
+ : Promise<any> {
+  const { success, catch: errorFun, finally: finallyFun } = options;
+  try {
+    const response = await fun();
+    if ( success ) {
+      success( response );
+    }
+    return response;
+  } catch ( error  ) {
+    const { message, stack } = error;
+    if ( errorFun ) {
+      errorFun( { message, stack } );
+    }
+  } finally {
+    if ( finallyFun ) {
+      finallyFun();
+    }
+  }
+}

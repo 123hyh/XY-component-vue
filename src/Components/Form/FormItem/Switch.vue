@@ -1,5 +1,14 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-05-30 22:40:29
+ * @LastEditTime: 2020-07-05 19:54:31
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /XY-component-vue/src/Components/Form/FormItem/Switch.vue
+--> 
 <template>
   <XySwitch
+    :id="modelBin"
     :disabled="options.disabled"
     v-model="formData[modelBin]"
     @change="handlerChange"

@@ -1,5 +1,6 @@
 <template>
   <XySelect
+  :id='modelBin'
     :popper-append-to-body="false"
     class="xy-select"
     :title="title"

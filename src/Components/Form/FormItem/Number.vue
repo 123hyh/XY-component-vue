@@ -1,5 +1,6 @@
 <template>
   <Input
+    :id='modelBin'
     :title="formData[modelBin]"
     :value="value"
     :placeholder="options.placeholder"

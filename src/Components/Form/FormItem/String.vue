@@ -1,5 +1,14 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-05-30 22:40:29
+ * @LastEditTime: 2020-07-05 19:54:18
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /XY-component-vue/src/Components/Form/FormItem/String.vue
+--> 
 <template>
   <Input
+  :id='modelBin'
     :title="title"
     v-model="formData[modelBin]"
     :placeholder="options.placeholder"

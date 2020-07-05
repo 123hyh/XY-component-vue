@@ -1,6 +1,7 @@
 <template>
   <div class="xy-search-string-box">
     <XyAutocomplete
+      :id='modelBin'
       v-if="reset"
       ref="XyAutocomplete"
       :clearable="true"
