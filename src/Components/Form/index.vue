@@ -356,7 +356,6 @@ export default {
      * 列表弹窗关闭做清空动作
      */
     handlerCloseListModal() {
-      debugger;
       this.currentListModalTarget = {};
     },
   },

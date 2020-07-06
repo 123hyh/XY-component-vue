@@ -21,9 +21,10 @@
 </template>
 
 <script>
-import { XyForm } from "@/index";
-import { createHttpReqest, setHttpHeader } from "@/utils/index";
-let id = 1;
+let id = 0
+import { XyForm } from '@/index';
+import { createHttpReqest,condom } from '@/utils/index';
+
 export default {
   data() {
     return {
@@ -328,13 +329,10 @@ export default {
     XyForm,
   },
   mounted() {
-    const requets = createHttpReqest({
-      baseUrl: "http://47.106.230.157:8080/apis",
-    });
-    setHttpHeader("x-auth-token", "16ee2e8e-dc3b-4c05-a742-aef273022b33");
-    requets({
-      url: "/exchangerate/search/settting/",
-      method: "POST",
+    const {request} = createHttpReqest({ baseUrl: 'http://47.106.230.157:8080/apis' });
+    request({
+      url: '/exchangerate/search/settting/',
+      method: 'POST',
       data: {
         pageIndex: 1,
         pageSize: 10,
