@@ -24,7 +24,7 @@
 
 ### 表单配置：
 ```javascript
-{
+[ fieldName ]: {
   type: 'lazyTreeSelect',
   label: '树状下拉',
   group: 1,
