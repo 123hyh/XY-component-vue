@@ -1,11 +1,11 @@
 <!--
- * @Author: your name
- * @Date: 2020-05-30 22:40:29
- * @LastEditTime: 2020-07-05 19:54:31
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: /XY-component-vue/src/Components/Form/FormItem/Switch.vue
---> 
+ * @Author: huangyuhui
+ * @since: 2020-05-30 14:20:02
+ * @LastAuthor: huangyuhui
+ * @lastTime: 2020-07-06 17:49:47
+ * @message: 
+ * @FilePath: \XY-component-vue\src\Components\Form\FormItem\Switch.vue
+-->
 <template>
   <XySwitch
     :id="modelBin"
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-
 import { Switch } from "element-ui";
 import { debounce } from "@/utils";
 export default {
@@ -46,12 +45,14 @@ export default {
   components: {
     XySwitch: Switch,
   },
-  methods: {
-    handlerChange: debounce(200, function(val) {
-      this.$nextTick(() => {
-        this.emit("handleChange", { target: this.modelBin, data: val });
-      });
-    }),
+  get methods() {
+    return {
+      handlerChange: debounce(200, function(val) {
+        this.$nextTick(() => {
+          this.emit("handleChange", { target: this.modelBin, data: val });
+        });
+      }),
+    };
   },
 };
 </script>

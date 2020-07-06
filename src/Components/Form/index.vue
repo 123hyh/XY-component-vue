@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-05-30 09:02:47
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-06-29 17:52:52
+ * @lastTime: 2020-07-02 09:43:23
  * @message: 表单组件
  * @FilePath: \XY-component-vue\src\Components\Form\index.vue
 -->
@@ -199,6 +199,7 @@ export default {
               checkbox: [],
               switch: false,
               select: multiple ? [] : "",
+              lazyTreeSelect: [],
             };
             return obj[type] ?? "";
           })();

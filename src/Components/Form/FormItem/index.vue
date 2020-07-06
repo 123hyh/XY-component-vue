@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-06-01 08:48:25
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-06-29 16:58:18
+ * @lastTime: 2020-07-02 09:12:47
  * @message: 表单Item组件
  * @FilePath: \XY-component-vue\src\Components\Form\FormItem\index.vue
 --> 
@@ -53,10 +53,9 @@ export default {
     checkboxComponent: () => import('@/Components/Form/FormItem/Checkbox.vue'),
     switchComponent: () => import('@/Components/Form/FormItem/Switch.vue'),
     selectComponent: () => import('@/Components/Form/FormItem/Select.vue'),
-    searchSelectComponent: () =>
-      import('@/Components/Form/FormItem/SearchSelect.vue'),
     searchStringComponent: () =>
       import('@/Components/Form/FormItem/searchString'),
+    lazyTreeSelectComponent:()=>import('@/Components/Form/FormItem/LezyTreeSelect.vue')
   },
 };
 </script>

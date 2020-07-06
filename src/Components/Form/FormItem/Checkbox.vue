@@ -50,47 +50,49 @@ export default {
     CheckboxGroup,
     Checkbox,
   },
-  methods: {
-    /**
-     * 向上传递事件
-     */
-    hanldeEmit(emitName, ...args) {
-      let data = [];
-
-      for (const id of this.formData[this.modelBin]) {
-        const checkedData = this.options.checkboxOptions.find(
-          (item) => item.id === id
-        );
-        if (checkedData) {
-          data.push({ sourceData: { ...checkedData }, checked: true });
-        }
-      }
+  get methods() {
+    return {
       /**
-       * emie 数据结构
-       * {
-       *    // 原选项数据
-       *    sourceData：{ id, value, ...data},
-       *    // 是否选中
-       *    checked: Boolean
-       * }
+       * 向上传递事件
        */
-      this.emit(emitName, {
-        target: this.modelBin,
-        data,
-      });
-    },
+      hanldeEmit(emitName, ...args) {
+        let data = [];
 
-    /**
-     * 点击选项时事件
-     */
-    handlerClickCheckbox: debounce(30, function(clickData) {
-      const targetData = this.formData[this.modelBin];
-      const { id } = clickData;
-      if (id !== undefined) {
-        const checked = targetData.includes(id);
-        this.emit("handleClickChekbox", { checked, sourceData: clickData });
-      }
-    }),
+        for (const id of this.formData[this.modelBin]) {
+          const checkedData = this.options.checkboxOptions.find(
+            (item) => item.id === id
+          );
+          if (checkedData) {
+            data.push({ sourceData: { ...checkedData }, checked: true });
+          }
+        }
+        /**
+         * emie 数据结构
+         * {
+         *    // 原选项数据
+         *    sourceData：{ id, value, ...data},
+         *    // 是否选中
+         *    checked: Boolean
+         * }
+         */
+        this.emit(emitName, {
+          target: this.modelBin,
+          data,
+        });
+      },
+
+      /**
+       * 点击选项时事件
+       */
+      handlerClickCheckbox: debounce(150, function(clickData) {
+        const targetData = this.formData[this.modelBin];
+        const { id } = clickData;
+        if (id !== undefined) {
+          const checked = targetData.includes(id);
+          this.emit("handleClickChekbox", { checked, sourceData: clickData });
+        }
+      }),
+    };
   },
 };
 </script>

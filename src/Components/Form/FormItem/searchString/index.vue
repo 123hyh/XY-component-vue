@@ -45,7 +45,8 @@
 <script>
 import { Input, Button, Autocomplete } from "element-ui";
 import { cloneData } from "@/utils/index";
-export default {
+
+export default  {
   inject: {
     emit: {
       from: "emit",
@@ -247,7 +248,9 @@ export default {
       }, 1000);
     },
   },
-};
+}
+
+
 </script>
 
 <style lang="scss">

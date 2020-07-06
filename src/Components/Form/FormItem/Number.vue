@@ -16,23 +16,23 @@
 </template>
 
 <script>
-import { Input } from 'element-ui';
-import { debounce } from '@/utils/index';
+import { Input } from "element-ui";
+import { debounce } from "@/utils/index";
 
 export default {
-  name: 'XyInputNumber',
+  name: "XyInputNumber",
   data() {
     return {
       isNumber: true,
-      value: '',
+      value: "",
     };
   },
   inject: {
     emit: {
-      from: 'emit',
+      from: "emit",
       default: () => {},
     },
-    size: ['size'],
+    size: ["size"],
   },
 
   watch: {
@@ -43,7 +43,7 @@ export default {
   },
 
   created() {
-    this.$emit('handleRule', {
+    this.$emit("handleRule", {
       target: this.modelBin,
       rule: [
         {
@@ -51,7 +51,7 @@ export default {
             if (this.isNumber) {
               callback();
             } else {
-              callback(Error('请输入数字'));
+              callback(Error("请输入数字"));
             }
           },
         },
@@ -81,10 +81,10 @@ export default {
      * 向上传递事件
      */
     hanldeEmit(emitName, ...args) {
-      if (emitName === 'handleChange' && args.length) {
+      if (emitName === "handleChange" && args.length) {
         this.handlerInput(...args);
       }
-      if (emitName === 'handleBlur') {
+      if (emitName === "handleBlur") {
         this.handleBlur();
       }
       this.emit(emitName, {
@@ -101,14 +101,14 @@ export default {
 
       // 处理输入小数
       if (reg.test(inputData)) {
-        inputData = inputData.replace(/\.$/, '.0');
+        inputData = inputData.replace(/\.$/, ".0");
       }
 
       // 设置标识符
       this.isNumber = isNaN(Number(inputData)) ? false : true;
 
       // 触发校验数字类型
-      this.$emit('checkingInput', this.modelBin);
+      this.$emit("checkingInput", this.modelBin);
       this.value = inputData;
       this.setFormData(inputData);
     },
@@ -116,18 +116,20 @@ export default {
     /**
      * 设置 formdata的数据 为number 类型
      */
-    setFormData: debounce(300, function(inputData) {
-      const transformData = Number(inputData) || '';
-      this.formData[this.modelBin] = transformData || 0;
-    }),
+    get setFormData() {
+      return debounce(300, function(inputData) {
+        const transformData = Number(inputData) || "";
+        this.formData[this.modelBin] = transformData || 0;
+      });
+    },
 
     /**
      * 失去焦点时处理输入框的显示
      */
     handleBlur() {
-      let value = this.value.replace(/\.$/, '.0');
+      let value = this.value.replace(/\.$/, ".0");
 
-      this.value = String(Number(value) || '');
+      this.value = String(Number(value) || "");
     },
   },
 };

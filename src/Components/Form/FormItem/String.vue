@@ -1,11 +1,11 @@
 <!--
- * @Author: your name
- * @Date: 2020-05-30 22:40:29
- * @LastEditTime: 2020-07-05 19:54:18
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: /XY-component-vue/src/Components/Form/FormItem/String.vue
---> 
+ * @Author: huangyuhui
+ * @since: 2020-05-30 09:02:47
+ * @LastAuthor: huangyuhui
+ * @lastTime: 2020-07-02 09:00:02
+ * @message: 
+ * @文件相对于项目的路径: \XY-component-vue\src\Components\Form\FormItem\String.vue
+-->
 <template>
   <Input
   :id='modelBin'
@@ -58,20 +58,22 @@ export default {
   components: {
     Input,
   },
-  methods: {
-    /**
-     * 向上传递事件
-     */
-    hanldeEmit(emitName) {
-      this.emit(emitName, {
-        target: this.modelBin,
-        data: this.formData[this.modelBin],
-      });
-    },
+  get methods() {
+    return {
+      /**
+       * 向上传递事件
+       */
+      hanldeEmit(emitName) {
+        this.emit(emitName, {
+          target: this.modelBin,
+          data: this.formData[this.modelBin],
+        });
+      },
 
-    handleInput: debounce(200, function() {
-      this.hanldeEmit("handleChange");
-    }),
+      handleInput: debounce(200, function() {
+        this.hanldeEmit("handleChange");
+      }),
+    };
   },
 };
 </script>

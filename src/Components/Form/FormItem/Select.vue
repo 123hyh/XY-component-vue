@@ -73,39 +73,41 @@ export default {
     XySelect: Select,
     XyOption: Option,
   },
-  methods: {
-    /**
-     * 向上传递事件
-     */
-    hanldeEmit(emitName) {
-      this.emit(emitName, {
-        target: this.modelBin,
-        data: this.formData[this.modelBin],
-      });
-    },
-    /**
-     * 节流控制阀
-     */
-    handlerChange: debounce(300, function() {
-      this.hanldeEmit("handleChange");
-    }),
+  get methods() {
+    return {
+      /**
+       * 向上传递事件
+       */
+      hanldeEmit(emitName) {
+        this.emit(emitName, {
+          target: this.modelBin,
+          data: this.formData[this.modelBin],
+        });
+      },
+      /**
+       * 节流控制阀
+       */
+      handlerChange: debounce(300, function() {
+        this.hanldeEmit("handleChange");
+      }),
 
-    /**
-     * 处理title显示
-     */
-    generatorTitle(data) {
-      let str = "";
-      if (getType(data) === "array") {
-        str = data.reduce((prev, cur, index) => {
-          const label = this.selectOptions[cur];
-          prev += `${index === 0 ? "" : " , "}${label}`;
-          return prev;
-        }, "");
-      } else {
-        str = this.selectOptions[data];
-      }
-      return str;
-    },
+      /**
+       * 处理title显示
+       */
+      generatorTitle(data) {
+        let str = "";
+        if (getType(data) === "array") {
+          str = data.reduce((prev, cur, index) => {
+            const label = this.selectOptions[cur];
+            prev += `${index === 0 ? "" : " , "}${label}`;
+            return prev;
+          }, "");
+        } else {
+          str = this.selectOptions[data];
+        }
+        return str;
+      },
+    };
   },
 };
 </script>
