@@ -33,7 +33,7 @@
 
 | 通用属性  | 数据类型 | 描述  | 备注  |
 | ------------ | ------------ | ------------ | ------------ |
-| type  | 表单类型  | string  | |
+| type  | 表单类型  | string  | "lazyTreeSelect" \| "string" \| "number" \| "searchString" \| "select" \| "checkbox" \| "time" \| "date" |
 | group  | 元素分组  |  number |
 | order  | 元素排序  |  number  |
 | label  | 元素的label文字  |  string |

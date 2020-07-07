@@ -177,4 +177,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang='scss'>
+.xy-search-string-dialog-footer{
+  button{
+    border-radius: 1px;
+  }
+}
+</style>
