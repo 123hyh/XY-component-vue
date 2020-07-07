@@ -2,6 +2,7 @@
   <div>
     <XyForm
       :inline="true"
+      :groupOptions='groupOptions'
       ref="xyForm"
       :config="config"
       @handleFocus="handleFocus"
@@ -27,12 +28,23 @@ import { createHttpReqest, condom } from "@/utils/index";
 export default {
   data() {
     return {
+      groupOptions: {
+        1: {
+          // 分组标题
+          title: "组1",
+          // 启用卡片式分组
+          card: true
+        },
+        2: {
+          title: "组2",
+        },
+      },
       config: {
         date1: {
           group: 1,
           order: 1,
           type: "date",
-          dateType: "datetimerange", // datetimerange (日期时间范围选择器) | datetime(单个日期时间选择器) | 
+          dateType: "datetimerange", // datetimerange (日期时间范围选择器) | datetime(单个日期时间选择器) |
           valueFormat: "yyyy-MM-dd", // yyyy-MM-dd HH:mm:ss | yyyy-MM-dd
           label: "时间选择器",
           clearable: true,
@@ -312,7 +324,6 @@ export default {
     handleChange() {
       console.log(`change`, arguments);
     },
-
 
     async handlerSearchSelectData({ target, keyword, afterCallback }) {
       function getData() {

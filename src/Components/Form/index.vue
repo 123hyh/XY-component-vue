@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-05-30 09:02:47
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-07 13:43:10
+ * @lastTime: 2020-07-07 14:08:30
  * @message: 表单组件
  * @FilePath: \XY-component-vue\src\Components\Form\index.vue
 -->
@@ -41,7 +41,7 @@
             :class="`xy-form-group xy-form-group-${key}`"
           >
             <!-- 分组标题 -->
-            <h3 class="group-title">title</h3>
+            <h3 class="group-title" v-if='groupOptions[key]'>{{(groupOptions[key] && groupOptions[key].title) || ''}}</h3>
             <!-- 分组表单内容 -->
             <div class="xy-form-group-content">
               <div
@@ -103,7 +103,11 @@ export default {
       type: String,
       default: "small" /* medium / small / mini */,
     },
-
+    // 表单分组选项
+    groupOptions: {
+      type: Object,
+      default: () => ({}),
+    },
     /* 表单输入框的配置 */
     config: {
       type: Object,
@@ -169,20 +173,20 @@ export default {
     },
     /**
      * 表单操作方法集合
-     * @description: 
-     * @param {type} 
-     * @return: 
+     * @description:
+     * @param {type}
+     * @return:
      */
-    formMethod(){
+    formMethod() {
       return {
         getFormData: this.getFormData,
         validateAllField: this.validateAllField,
         clearValidate: this.clearValidate,
         resetFields: this.resetFields,
         validateField: this.validateField,
-        setFields: this.setFields
-      }
-    }
+        setFields: this.setFields,
+      };
+    },
   },
   components: {
     Form,

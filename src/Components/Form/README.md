@@ -6,6 +6,7 @@
 <XyForm
       :inline="true"
       ref="xyForm"
+      :groupOptions="groupOptions"
       :config="config"
       @handleFocus="handleFocus"
       @handleBlur="handleBlur"
@@ -28,6 +29,23 @@
 | inline | boolean | 是否为行内模式 | 默认 false
 | modalData | Array\<object\> | modal 表格数据 |
 | config | object | 表单Item选项配置参考下面的 |
+| groupOptions| object | 分组选项 | |
+
+  ## 分组选项 groupOptions：
+  ```javascript 
+       groupOptions: {
+        1: {
+          // 分组标题
+          title: "组1",
+          // 启用卡片式分组
+          card: true
+        },
+        2: {
+          title: "组2",
+        },
+      }
+  ```
+
 
 # 表单操作方法 
 
@@ -41,6 +59,8 @@
 | resetFields | 无参数 | 清空字段及移除所有校验结果 |
 | validateField | Array\<string\> \| string | 对部分表单字段校验 |
 | setFields | object | 设置表单字段的值 |
+
+
 
 # 表单组件：config 配置选项
 
