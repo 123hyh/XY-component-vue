@@ -29,6 +29,13 @@ export default {
   data() {
     return {
       config: {
+        time1:{
+          group: 1,
+          order: 1,
+          type: 'time',
+          label: '时间选择器',
+          clearable: true,
+        },
         treeSelect: {
           type: "lazyTreeSelect",
           label: "树状下拉",

@@ -2,12 +2,12 @@
  * @Author: huangyuhui
  * @since: 2020-06-01 08:48:25
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-02 09:12:47
+ * @lastTime: 2020-07-07 10:27:03
  * @message: 表单Item组件
  * @FilePath: \XY-component-vue\src\Components\Form\FormItem\index.vue
---> 
+-->
 <template>
-  <FormItem  :label="options.label" :prop="options.modelBin">
+  <FormItem :label="options.label" :prop="options.modelBin">
     <component
       :is="inputType"
       :modelBin="modelBin"
@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import { FormItem } from 'element-ui';
+import { FormItem } from "element-ui";
 
 export default {
-  name: 'XyFormItem',
+  name: "XyFormItem",
   props: {
     options: {
       props: Object,
@@ -43,19 +43,21 @@ export default {
   },
   data() {
     return {
-      inputType: (this.options.type || 'string') + 'Component',
+      inputType: (this.options.type || "string") + "Component",
     };
   },
   components: {
     FormItem,
-    stringComponent: () => import('@/Components/Form/FormItem/String.vue'),
-    numberComponent: () => import('@/Components/Form/FormItem/Number.vue'),
-    checkboxComponent: () => import('@/Components/Form/FormItem/Checkbox.vue'),
-    switchComponent: () => import('@/Components/Form/FormItem/Switch.vue'),
-    selectComponent: () => import('@/Components/Form/FormItem/Select.vue'),
+    stringComponent: () => import("@/Components/Form/FormItem/String.vue"),
+    numberComponent: () => import("@/Components/Form/FormItem/Number.vue"),
+    checkboxComponent: () => import("@/Components/Form/FormItem/Checkbox.vue"),
+    switchComponent: () => import("@/Components/Form/FormItem/Switch.vue"),
+    selectComponent: () => import("@/Components/Form/FormItem/Select.vue"),
     searchStringComponent: () =>
-      import('@/Components/Form/FormItem/searchString'),
-    lazyTreeSelectComponent:()=>import('@/Components/Form/FormItem/LezyTreeSelect.vue')
+      import("@/Components/Form/FormItem/searchString"),
+    lazyTreeSelectComponent: () =>
+      import("@/Components/Form/FormItem/LezyTreeSelect.vue"),
+    timeComponent: () => import("@/Components/Form/FormItem/time.vue"),
   },
 };
 </script>

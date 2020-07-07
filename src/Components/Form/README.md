@@ -8,6 +8,7 @@
 | group  | 元素分组  |  number |
 | order  | 元素排序  |  number  |
 | label  | 元素的label文字  |  string |
+| disabled| 禁用输入框  |  boolean  |
 | readonly  | 是否可输入  |  boolean |
 | rules  | 元素的验证规则  | Array<object> | 参考 Element组件验证规则  |
 | clearable  | 显示清空内容按钮  | boolean  |
@@ -242,4 +243,21 @@
   ],
 };
 
+```
+
+***
+## 6. 时间选择器
+
+| 事件名  | 事件描述  | 备注  |
+| ------------ | ------------ | ------------ |
+|  handleChange| 值发生变化时触发事件  |
+
+```javascript
+{
+  group: 1,
+  order: 1,
+  type: 'time',
+  label: '时间选择器',
+  clearable: true,
+}
 ```
