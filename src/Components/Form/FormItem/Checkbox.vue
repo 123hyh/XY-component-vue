@@ -2,13 +2,15 @@
  * @Author: huangyuhui
  * @since: 2020-07-06 17:49:12
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-07 11:22:06
+ * @lastTime: 2020-07-07 11:59:40
  * @message: 
- * @文件相对于项目的路径: \XY-component-vue\src\Components\Form\FormItem\Checkbox.vue
+ * @FilePath: \XY-component-vue\src\Components\Form\FormItem\Checkbox.vue
 --> 
 <template>
   <CheckboxGroup
+    :id='modelBin'
     :disabled="options.disabled"
+    :readonly="options.readonly"
     :title="formData[modelBin]"
     v-model="formData[modelBin]"
     :placeholder="options.placeholder"

@@ -2,6 +2,35 @@
 
 `import { XyForm } from xy-components-vue`
 
+```javascript
+<XyForm
+      :inline="true"
+      ref="xyForm"
+      :config="config"
+      @handleFocus="handleFocus"
+      @handleBlur="handleBlur"
+      @handleClear="handleClear"
+      @handleChange="handleChange"
+      @handlerSearchSelectData="handlerSearchSelectData"
+      @handleClickSearch="handleClickSearch"
+      @handleModalConfirm="handleModalConfirm"
+      @handleListModalClickSearch="handlerListModalClickSearch"
+      @handleListModalClickReset="handlerListModalClickReset"
+      @handleSearchStringData="handlerSearchStringData"
+      @handleLazyTreeSelect="handlerLazyTreeSelect"
+    />
+```
+ # XyForm 组件 props
+
+| props属性  | 类型 | 描述  | 备注  |
+| ------------ | ------------ | ------------ | ------------ |
+| size | string | 输入框Item的尺寸模式 "medium" \| "small" \| "mini"  | 默认 small
+| inline | boolean | 是否为行内模式 | 默认 false
+| modalData | Array\<object\> | modal 表格数据 |
+| config | object | 表单Item选项配置参考下面的 |
+
+# 表单组件：config 配置选项
+
 | 通用属性  | 数据类型 | 描述  | 备注  |
 | ------------ | ------------ | ------------ | ------------ |
 | type  | 表单类型  | string  | |
@@ -16,8 +45,8 @@
 | placeholder  | 输入框占位文字  |  string  |
 
 
-***
-# 表单组件：
+
+
 
 ## 1. 远程树状下拉组件
 
@@ -216,7 +245,7 @@
 
 | 属性  | 描述  | 事件名  | 事件描述  | 备注  |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-|  |  |  handleChange | 值变化事件  |
+|  |  |  handleChange | 值变化 时 触发事件  |
 
 ```javascript 
 {
@@ -258,6 +287,27 @@
   order: 1,
   type: 'time',
   label: '时间选择器',
+  clearable: true,
+}
+```
+
+***
+## 7. 日期时间选择器(可选范围)
+
+| 事件名  | 事件描述  | 备注  |
+| ------------ | ------------ | ------------ |
+|  handleChange| 值发生变化时触发事件  |
+
+```javascript
+{
+  group: 1,
+  order: 1,
+  type: "date",
+  // 时间选择框的类型 
+  dateType: "datetimerange", // datetimerange (日期时间范围选择器) | datetime(单个日期时间选择器) | 
+  // 格式化时间值
+  valueFormat: "yyyy-MM-dd", // yyyy-MM-dd HH:mm:ss | yyyy-MM-dd
+  label: "时间选择器",
   clearable: true,
 }
 ```

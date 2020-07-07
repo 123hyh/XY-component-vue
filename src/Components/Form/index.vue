@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-05-30 09:02:47
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-02 09:43:23
+ * @lastTime: 2020-07-07 12:07:01
  * @message: 表单组件
  * @FilePath: \XY-component-vue\src\Components\Form\index.vue
 -->
@@ -395,7 +395,7 @@ export default {
         height: 50px;
         display: flex;
         .el-form-item__label {
-          flex-basis: 8em;
+          min-width: 8em;
         }
         .el-form-item__content {
           flex-grow: 1;

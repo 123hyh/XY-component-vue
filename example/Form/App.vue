@@ -8,32 +8,40 @@
       @handleBlur="handleBlur"
       @handleClear="handleClear"
       @handleChange="handleChange"
-      @handleClickChekbox="handleClickChekbox"
       @handlerSearchSelectData="handlerSearchSelectData"
       @handleClickSearch="handleClickSearch"
       @handleModalConfirm="handleModalConfirm"
       @handleListModalClickSearch="handlerListModalClickSearch"
       @handleListModalClickReset="handlerListModalClickReset"
       @handleSearchStringData="handlerSearchStringData"
-      @handleLazyTreeSelect='handlerLazyTreeSelect'
+      @handleLazyTreeSelect="handlerLazyTreeSelect"
     />
   </div>
 </template>
 
 <script>
-let id = 0
-import { XyForm } from '@/index';
-import { createHttpReqest,condom } from '@/utils/index';
+let id = 0;
+import { XyForm } from "@/index";
+import { createHttpReqest, condom } from "@/utils/index";
 
 export default {
   data() {
     return {
       config: {
-        time1:{
+        date1: {
           group: 1,
           order: 1,
-          type: 'time',
-          label: '时间选择器',
+          type: "date",
+          dateType: "datetimerange", // datetimerange (日期时间范围选择器) | datetime(单个日期时间选择器) | 
+          valueFormat: "yyyy-MM-dd", // yyyy-MM-dd HH:mm:ss | yyyy-MM-dd
+          label: "时间选择器",
+          clearable: true,
+        },
+        time1: {
+          group: 1,
+          order: 1,
+          type: "time",
+          label: "时间选择器",
           clearable: true,
         },
         treeSelect: {
@@ -45,11 +53,13 @@ export default {
           lazyLoad(node, resolve) {
             const { level } = node;
             setTimeout(() => {
-              const nodes = Array.from({ length: level * 40+1 }).map((item) => ({
-                value: ++id,
-                label: `选项${id}`,
-                leaf: level >= 2,
-              }));
+              const nodes = Array.from({ length: level * 40 + 1 }).map(
+                (item) => ({
+                  value: ++id,
+                  label: `选项${id}`,
+                  leaf: level >= 2,
+                })
+              );
               // 通过调用resolve将子节点数据返回，通知组件数据加载完成
               resolve(nodes);
             }, 1000);
@@ -85,7 +95,7 @@ export default {
         },
         password: {
           type: "number",
-          label: "密码",
+          label: "数字输入框",
           clearable: true,
           order: 1,
           group: 1,
@@ -257,8 +267,8 @@ export default {
     };
   },
   methods: {
-    handlerLazyTreeSelect(data){
-      debugger
+    handlerLazyTreeSelect(data) {
+      debugger;
     },
     /**
      * @description: 带searchBtn按钮的下拉选中事件
@@ -303,9 +313,6 @@ export default {
       console.log(`change`, arguments);
     },
 
-    handleClickChekbox() {
-      console.log(`clickCheckbox`, arguments);
-    },
 
     async handlerSearchSelectData({ target, keyword, afterCallback }) {
       function getData() {
@@ -336,10 +343,12 @@ export default {
     XyForm,
   },
   mounted() {
-    const {request} = createHttpReqest({ baseUrl: 'http://47.106.230.157:8080/apis' });
+    const { request } = createHttpReqest({
+      baseUrl: "http://47.106.230.157:8080/apis",
+    });
     request({
-      url: '/exchangerate/search/settting/',
-      method: 'POST',
+      url: "/exchangerate/search/settting/",
+      method: "POST",
       data: {
         pageIndex: 1,
         pageSize: 10,

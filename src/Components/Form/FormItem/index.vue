@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-06-01 08:48:25
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-07 10:27:03
+ * @lastTime: 2020-07-07 11:32:21
  * @message: 表单Item组件
  * @FilePath: \XY-component-vue\src\Components\Form\FormItem\index.vue
 -->
@@ -57,7 +57,8 @@ export default {
       import("@/Components/Form/FormItem/searchString"),
     lazyTreeSelectComponent: () =>
       import("@/Components/Form/FormItem/LezyTreeSelect.vue"),
-    timeComponent: () => import("@/Components/Form/FormItem/time.vue"),
+    timeComponent: () => import("@/Components/Form/FormItem/Time.vue"),
+    dateComponent: () => import("@/Components/Form/FormItem/Date.vue"),
   },
 };
 </script>
