@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-05-30 14:20:02
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-06 17:49:47
+ * @lastTime: 2020-07-07 11:14:43
  * @message: 
  * @FilePath: \XY-component-vue\src\Components\Form\FormItem\Switch.vue
 -->
@@ -11,7 +11,6 @@
     :id="modelBin"
     :disabled="options.disabled"
     v-model="formData[modelBin]"
-    @change="handlerChange"
   >
   </XySwitch>
 </template>
@@ -19,7 +18,10 @@
 <script>
 import { Switch } from "element-ui";
 import { debounce } from "@/utils";
+import { valueChangeEventMixins } from "@/Components/Form/FormItem/mixin.js";
+
 export default {
+  mixins: [valueChangeEventMixins],
   inject: {
     emit: {
       from: "emit",
@@ -44,15 +46,6 @@ export default {
   },
   components: {
     XySwitch: Switch,
-  },
-  get methods() {
-    return {
-      handlerChange: debounce(200, function(val) {
-        this.$nextTick(() => {
-          this.emit("handleChange", { target: this.modelBin, data: val });
-        });
-      }),
-    };
   },
 };
 </script>

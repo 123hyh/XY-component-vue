@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-07-02 09:07:42
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-03 11:50:42
+ * @lastTime: 2020-07-07 11:19:15
  * @message: 懒加载树状下拉
  * @FilePath: \XY-component-vue\src\Components\Form\FormItem\LezyTreeSelect.vue
 -->
@@ -14,12 +14,14 @@
     :size="size"
     :props="cascaderProps"
     :clearable="options.clearable"
-    @change="onChange"
   ></Cascader>
 </template>
 <script>
 import { Cascader } from "element-ui";
+import { valueChangeEventMixins } from "@/Components/Form/FormItem/mixin.js";
+
 export default {
+  mixins: [valueChangeEventMixins],
   components: {
     Cascader,
   },
@@ -51,15 +53,6 @@ export default {
         lazyLoad: this.options.lazyLoad,
       },
     };
-  },
-
-  methods: {
-    onChange(val) {
-      this.emit("handleLazyTreeSelect", {
-        target: this.modelBin,
-        data: [...val],
-      });
-    },
   },
 };
 </script>

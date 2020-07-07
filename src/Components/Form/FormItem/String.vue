@@ -2,9 +2,9 @@
  * @Author: huangyuhui
  * @since: 2020-05-30 09:02:47
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-02 09:00:02
+ * @lastTime: 2020-07-07 11:25:10
  * @message: 
- * @文件相对于项目的路径: \XY-component-vue\src\Components\Form\FormItem\String.vue
+ * @FilePath: \XY-component-vue\src\Components\Form\FormItem\String.vue
 -->
 <template>
   <Input
@@ -19,15 +19,16 @@
     @focus="() => hanldeEmit('handleFocus')"
     @blur="() => hanldeEmit('handleBlur')"
     @clear="() => hanldeEmit('handleClear')"
-    @input="() => handleInput('handleChange')"
   />
 </template>
 
 <script>
 import { Input } from "element-ui";
 import { debounce } from "@/utils";
+import { valueChangeEventMixins } from "@/Components/Form/FormItem/mixin.js";
 
 export default {
+  mixins: [valueChangeEventMixins],
   computed: {
     title() {
       return this.options.showPassword ? "" : this.formData[this.modelBin];
@@ -69,10 +70,6 @@ export default {
           data: this.formData[this.modelBin],
         });
       },
-
-      handleInput: debounce(200, function() {
-        this.hanldeEmit("handleChange");
-      }),
     };
   },
 };

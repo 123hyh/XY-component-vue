@@ -1,3 +1,11 @@
+<!--
+ * @Author: huangyuhui
+ * @since: 2020-07-06 17:49:12
+ * @LastAuthor: huangyuhui
+ * @lastTime: 2020-07-07 11:22:06
+ * @message: 
+ * @文件相对于项目的路径: \XY-component-vue\src\Components\Form\FormItem\Checkbox.vue
+--> 
 <template>
   <CheckboxGroup
     :disabled="options.disabled"
@@ -12,7 +20,6 @@
       :key="item.id"
       :label="item.id"
       :disabled="item.disabled"
-      @click.native.stop="() => handlerClickCheckbox(item)"
     >
       {{ item.label }}
     </Checkbox>
@@ -22,8 +29,11 @@
 <script>
 import { debounce, traversalObject } from "@/utils/index";
 import { CheckboxGroup, Checkbox } from "element-ui";
+import { valueChangeEventMixins } from "@/Components/Form/FormItem/mixin.js";
 
 export default {
+  mixins: [valueChangeEventMixins],
+
   inject: {
     emit: {
       from: "emit",
@@ -80,18 +90,6 @@ export default {
           data,
         });
       },
-
-      /**
-       * 点击选项时事件
-       */
-      handlerClickCheckbox: debounce(150, function(clickData) {
-        const targetData = this.formData[this.modelBin];
-        const { id } = clickData;
-        if (id !== undefined) {
-          const checked = targetData.includes(id);
-          this.emit("handleClickChekbox", { checked, sourceData: clickData });
-        }
-      }),
     };
   },
 };

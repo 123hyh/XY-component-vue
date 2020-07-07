@@ -13,7 +13,6 @@
     v-model="formData[modelBin]"
     :placeholder="options.placeholder"
     @clear="() => hanldeEmit('handleClear')"
-    @change="() => handlerChange('handleChange')"
   >
     <XyOption
       v-for="item of options.selectOptions"
@@ -29,7 +28,11 @@
 <script>
 import { Select, Option } from "element-ui";
 import { debounce, getType } from "@/utils";
+import { valueChangeEventMixins } from "@/Components/Form/FormItem/mixin.js";
+
 export default {
+  mixins: [valueChangeEventMixins],
+
   computed: {
     filterable() {
       return this.options.filterable ?? true;
@@ -84,12 +87,6 @@ export default {
           data: this.formData[this.modelBin],
         });
       },
-      /**
-       * 节流控制阀
-       */
-      handlerChange: debounce(300, function() {
-        this.hanldeEmit("handleChange");
-      }),
 
       /**
        * 处理title显示
