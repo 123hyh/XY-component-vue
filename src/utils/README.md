@@ -58,7 +58,7 @@
   immediate = false  
  )
 ```
-## 8. 替换html文本标签
+## 8. 替换html 标签
  
 ```javascript
  import { replaceHtmlTag } from 'xy-components-vue/utils'
