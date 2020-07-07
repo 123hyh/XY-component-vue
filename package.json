@@ -4,7 +4,9 @@
   "description": "迅宇vue公共组件，指令，工具函数",
   "main": "./dist",
   "scripts": {
-    "build": "node ./scripts/production.js --production",
+    "build:Patch": "node ./scripts/production.js --production --Patch",
+    "build:Minor": "node ./scripts/production.js --production --Minor",
+    "build:Major": "node ./scripts/production.js --production --Major",
     "dev": "node ./scripts/development.js --development"
   },
   "author": "",
