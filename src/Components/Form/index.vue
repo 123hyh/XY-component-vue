@@ -2,7 +2,7 @@
  * @Author: huangyuhui
  * @since: 2020-05-30 09:02:47
  * @LastAuthor: huangyuhui
- * @lastTime: 2020-07-07 13:31:06
+ * @lastTime: 2020-07-07 13:43:10
  * @message: 表单组件
  * @FilePath: \XY-component-vue\src\Components\Form\index.vue
 -->
@@ -167,6 +167,22 @@ export default {
     _FormLen() {
       return Object.keys(this.groupFormConfig).length;
     },
+    /**
+     * 表单操作方法集合
+     * @description: 
+     * @param {type} 
+     * @return: 
+     */
+    formMethod(){
+      return {
+        getFormData: this.getFormData,
+        validateAllField: this.validateAllField,
+        clearValidate: this.clearValidate,
+        resetFields: this.resetFields,
+        validateField: this.validateField,
+        setFields: this.setFields
+      }
+    }
   },
   components: {
     Form,

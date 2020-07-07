@@ -29,6 +29,19 @@
 | modalData | Array\<object\> | modal 表格数据 |
 | config | object | 表单Item选项配置参考下面的 |
 
+# 表单操作方法 
+
+`this.$refs.xyForm.formMethod[ methodName ]`
+
+| 事件名称  | 参数类型 | 描述  | 备注  |
+| ------------ | ------------ | ------------ | ------------ |
+| getFormData | 无参数 | 获取表单的值 |
+| validateAllField | 无参数 | 校验表单，通过则返回当前表单的所有数据 |
+| clearValidate |  Array\<string\> \| string | 清空字段校验结果 |
+| resetFields | 无参数 | 清空字段及移除所有校验结果 |
+| validateField | Array\<string\> \| string | 对部分表单字段校验 |
+| setFields | object | 设置表单字段的值 |
+
 # 表单组件：config 配置选项
 
 | 通用属性  | 数据类型 | 描述  | 备注  |
